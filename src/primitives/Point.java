@@ -7,7 +7,6 @@ public class Point {
 
     public Point(double d1, double d2, double d3) {
         xyz = new Double3(d1, d2, d3);
-
     }
 
     Point(Double3 doub3) {
