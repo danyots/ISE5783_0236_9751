@@ -4,14 +4,32 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+/**
+ * The `Cylinder` class represents a cylinder in 3D space, defined by a central `Ray` axis, a radius, and a height.
+ * A cylinder is a type of `Tube` object that has a finite height and no end caps.
+ */
 public class Cylinder extends Tube {
+
+
     final private double height;
 
-    public Cylinder(double h, Ray ar, double r){
-        super(ar,r);
-        height=h;
+    /**
+     * Constructs a new `Cylinder` object with the specified height, central `Ray` axis, and radius.
+     *
+     * @param h  the height of the cylinder
+     * @param ar the central `Ray` axis of the cylinder
+     * @param r  the radius of the cylinder
+     */
+    public Cylinder(double h, Ray ar, double r) {
+        super(ar, r);
+        height = h;
     }
 
+    /**
+     * Returns the height of this cylinder.
+     *
+     * @return the height of this cylinder
+     */
     public double getHeight() {
         return height;
     }
