@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Point {
     /**
      * The 3D coordinates of this Point object.
+     * package-friendly field
      */
     final Double3 xyz;
 
@@ -24,6 +25,7 @@ public class Point {
 
     /**
      * Constructs a new Point object from a Double3 object.
+     *  package-friendly constructor
      *
      * @param doub3 the Double3 object to construct the Point from
      */
