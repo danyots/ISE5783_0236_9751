@@ -5,17 +5,37 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-public class Tube extends RadialGeometry{
+/**
+ * The `Tube` class represents a tube in 3D space, defined by a central `Ray` axis and a radius.
+ * A tube is a type of `RadialGeometry` object that has no end caps.
+ */
+public class Tube extends RadialGeometry {
+
+    /**
+     * The central axis `Ray` of the tube.
+     */
     final protected Ray axisRay;
 
-    public Tube(Ray axisray, double r){
+    /**
+     * Constructs a new `Tube` object with the specified central `Ray` axis and radius.
+     *
+     * @param axisray the central `Ray` axis of the tube
+     * @param r the radius of the tube
+     */
+    public Tube(Ray axisray, double r) {
         super(r);
-        axisRay=axisray;
+        axisRay = axisray;
     }
 
+    /**
+     * Returns the central axis `Ray` of this tube.
+     *
+     * @return the central axis `Ray` of this tube
+     */
     public Ray getAxisRay() {
         return axisRay;
     }
+
 
     @Override
     public String toString() {
@@ -25,8 +45,10 @@ public class Tube extends RadialGeometry{
                 '}';
     }
 
+
     @Override
     public Vector getNormal(Point point) {
         return null;
     }
 }
+
