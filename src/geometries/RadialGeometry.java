@@ -3,11 +3,23 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
-public abstract class RadialGeometry  implements Geometry{
+/**
+ * The abstract class RadialGeometry represents a geometry object with a radial size.
+ * The abstract class RadialGeometry implements Geometry interface
+ */
+public abstract class RadialGeometry implements Geometry {
+    /**
+     * The radius of the radial geometry object.
+     */
     final protected double radius;
 
-    public RadialGeometry(double r){
-        radius=r;
+    /**
+     * Constructs a new RadialGeometry object with the specified radius.
+     *
+     * @param r The radius of the new RadialGeometry object.
+     */
+    public RadialGeometry(double r) {
+        radius = r;
     }
 
     @Override
