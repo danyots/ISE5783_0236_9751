@@ -31,7 +31,6 @@ public class Point {
      */
     Point(Double3 doub3) {
         xyz = new Double3(doub3.d1, doub3.d2, doub3.d3);
-
     }
 
     /**
@@ -78,18 +77,14 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point{" +
-                "xyz=" + xyz.toString() +
-                '}';
+        return "Point{" + "xyz=" + xyz + "}";
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Point) {
-            Point other = (Point) obj;
+        if (obj instanceof Point other)
             return this.xyz.equals(other.xyz) ;
-        }
         return false;
     }
 }

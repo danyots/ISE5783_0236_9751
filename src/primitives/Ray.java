@@ -50,7 +50,7 @@ public class Ray {
     }
 
 
-        @Override
+    @Override
     public String toString() {
         return "Ray{" +
                 "p0=" + p0.toString() +
