@@ -36,11 +36,7 @@ public class Cylinder extends Tube {
 
     @Override
     public String toString() {
-        return "Cylinder{" +
-                "height=" + height +
-                ", axisRay=" + axisRay +
-                ", radius=" + radius +
-                '}';
+        return "Cylinder{" + "height=" + height + ", axisRay=" + axisRay + ", radius=" + radius + "}";
     }
 
     @Override

@@ -62,7 +62,10 @@ public class Point {
      * @return the square of the distance between this point and another point
      */
     public double distanceSquared(Point p) {
-        return xyz.d1 * p.xyz.d1 + xyz.d2 * p.xyz.d2 + xyz.d3 * p.xyz.d3;
+        double dx=xyz.d1-p.xyz.d1;
+        double dy=xyz.d2-p.xyz.d2;
+        double dz=xyz.d3-p.xyz.d3;
+        return dx*dx+dy*dy+dz*dz;
     }
 
     /**

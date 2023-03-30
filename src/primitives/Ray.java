@@ -42,8 +42,7 @@ public class Ray {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Ray) {
-            Ray other = (Ray) obj;
+        if (obj instanceof Ray other) {
             return this.p0.equals(other.p0) && this.dir.equals(other.dir) ;
         }
         return false;
@@ -52,9 +51,6 @@ public class Ray {
 
     @Override
     public String toString() {
-        return "Ray{" +
-                "p0=" + p0.toString() +
-                ", dir=" + dir.toString() +
-                '}';
+        return "Ray{" + "p0=" + p0 + ", dir=" + dir + "}";
     }
 }

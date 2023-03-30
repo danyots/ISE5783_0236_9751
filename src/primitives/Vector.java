@@ -100,17 +100,14 @@ public class Vector extends Point {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Vector) {
-            Vector other = (Vector) obj;
+        if (obj instanceof Vector other) {
             return this.xyz.equals(other.xyz) ;
         }
         return false;
     }
     @Override
     public String toString() {
-        return "Vector{" +
-                "xyz=" + xyz.toString() +
-                '}';
+        return "Vector{" + "xyz=" + xyz + "}";
     }
 
 
