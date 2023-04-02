@@ -5,7 +5,6 @@ import primitives.Vector;
 
 /**
  * The abstract class RadialGeometry represents a geometry object with a radial size.
- * The abstract class RadialGeometry implements Geometry interface
  */
 public abstract class RadialGeometry implements Geometry {
     /**
@@ -20,10 +19,5 @@ public abstract class RadialGeometry implements Geometry {
      */
     public RadialGeometry(double r) {
         radius = r;
-    }
-
-    @Override
-    public Vector getNormal(Point point) {
-        return null;
     }
 }

@@ -30,21 +30,10 @@ public class Sphere extends RadialGeometry {
         return center;
     }
 
-    /**
-     * Returns the radius  of the sphere.
-     *
-     * @return the radius  of the sphere.
-     */
-    public double getRadius() {
-        return radius;
-    }
-
-
     @Override
     public String toString() {
         return "Sphere{" + "center=" + center + ", radius=" + radius + "}";
     }
-
 
     @Override
     public Vector getNormal(Point point) {

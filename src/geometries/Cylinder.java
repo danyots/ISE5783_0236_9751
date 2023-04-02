@@ -9,8 +9,6 @@ import primitives.Vector;
  * A cylinder is a type of `Tube` object that has a finite height and no end caps.
  */
 public class Cylinder extends Tube {
-
-
     final private double height;
 
     /**
@@ -32,15 +30,6 @@ public class Cylinder extends Tube {
      */
     public double getHeight() {
         return height;
-    }
-
-    /**
-     * Returns the radius  of the cylinder.
-     *
-     * @return the radius  of the cylinder.
-     */
-    public double getRadius() {
-        return radius;
     }
 
     @Override

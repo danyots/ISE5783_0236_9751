@@ -1,5 +1,7 @@
 package primitives;
-
+/**
+ * The Vector class represents a vector in 3D space. A vctor is defined by 3 coordinates.
+ */
 public class Vector extends Point {
     /**
      * Constructs a new Vector object using three coordinates.

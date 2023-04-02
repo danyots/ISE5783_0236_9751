@@ -1,5 +1,9 @@
 package primitives;
 
+/**
+ * The Point class represents a point in 3D space. A point is defined by 3 coordinates.
+ */
+
 import java.util.Objects;
 
 /**
@@ -25,12 +29,12 @@ public class Point {
 
     /**
      * Constructs a new Point object from a Double3 object.
-     *  package-friendly constructor
+     * package-friendly constructor
      *
      * @param coordinates the Double3 object to construct the Point from
      */
     Point(Double3 coordinates) {
-        xyz = new Double3(coordinates.d1, coordinates.d2, coordinates.d3);
+        xyz = coordinates;
     }
 
     /**
@@ -56,16 +60,16 @@ public class Point {
     }
 
     /**
-     * Returns the square of the distance between this point and another point.
+     * Calculates the square of the distance between this point and another point.
      *
      * @param p the other point to calculate the distance to
-     * @return the square of the distance between this point and another point
+     * @return the square of the distance
      */
     public double distanceSquared(Point p) {
-        double dx=xyz.d1-p.xyz.d1;
-        double dy=xyz.d2-p.xyz.d2;
-        double dz=xyz.d3-p.xyz.d3;
-        return dx*dx+dy*dy+dz*dz;
+        double dx = xyz.d1 - p.xyz.d1;
+        double dy = xyz.d2 - p.xyz.d2;
+        double dz = xyz.d3 - p.xyz.d3;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /**
@@ -87,7 +91,7 @@ public class Point {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Point other)
-            return this.xyz.equals(other.xyz) ;
+            return this.xyz.equals(other.xyz);
         return false;
     }
 }

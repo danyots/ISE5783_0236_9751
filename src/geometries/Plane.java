@@ -25,7 +25,7 @@ public class Plane implements Geometry {
 
     /**
      * Constructs a plane from a point and a normal vector.
-     * @param p The point
+     * @param p a point in the plane
      * @param v The normal vector
      */
     public Plane(Point p, Vector v) {
@@ -36,7 +36,7 @@ public class Plane implements Geometry {
 
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        return normal;
     }
 
     /**
