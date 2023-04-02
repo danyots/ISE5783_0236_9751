@@ -36,6 +36,14 @@ public class Tube extends RadialGeometry {
         return axisRay;
     }
 
+    /**
+     * Returns the radius  of the tube.
+     *
+     * @return the radius  of the tube.
+     */
+    public double getRadius() {
+        return radius;
+    }
 
     @Override
     public String toString() {

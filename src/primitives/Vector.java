@@ -18,11 +18,11 @@ public class Vector extends Point {
      * Constructs a new Vector object using a Double3 object.
      * package-friendly constructor
      *
-     * @param doub3 the Double3 object representing the coordinates of the vector
+     * @param coordinates the Double3 object representing the coordinates of the vector
      * @throws IllegalArgumentException if the vector is zero
      */
-    Vector(Double3 doub3) {
-        super(doub3);
+    Vector(Double3 coordinates) {
+        super(coordinates);
         if (xyz.equals(xyz.ZERO)) throw new IllegalArgumentException("vector cannot be zero");
     }
 

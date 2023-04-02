@@ -27,10 +27,10 @@ public class Point {
      * Constructs a new Point object from a Double3 object.
      *  package-friendly constructor
      *
-     * @param doub3 the Double3 object to construct the Point from
+     * @param coordinates the Double3 object to construct the Point from
      */
-    Point(Double3 doub3) {
-        xyz = new Double3(doub3.d1, doub3.d2, doub3.d3);
+    Point(Double3 coordinates) {
+        xyz = new Double3(coordinates.d1, coordinates.d2, coordinates.d3);
     }
 
     /**

@@ -17,11 +17,11 @@ public class Cylinder extends Tube {
      * Constructs a new `Cylinder` object with the specified height, central `Ray` axis, and radius.
      *
      * @param h  the height of the cylinder
-     * @param ar the central `Ray` axis of the cylinder
+     * @param axisray the central `Ray` axis of the cylinder
      * @param r  the radius of the cylinder
      */
-    public Cylinder(double h, Ray ar, double r) {
-        super(ar, r);
+    public Cylinder(double h, Ray axisray, double r) {
+        super(axisray, r);
         height = h;
     }
 
@@ -32,6 +32,15 @@ public class Cylinder extends Tube {
      */
     public double getHeight() {
         return height;
+    }
+
+    /**
+     * Returns the radius  of the cylinder.
+     *
+     * @return the radius  of the cylinder.
+     */
+    public double getRadius() {
+        return radius;
     }
 
     @Override
