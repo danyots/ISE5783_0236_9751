@@ -26,6 +26,7 @@ public class Sphere extends RadialGeometry {
      *
      * @return the center point of the sphere.
      */
+
     public Point getCenter() {
         return center;
     }
@@ -37,6 +38,7 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        Vector v = point.subtract(center).normalize();
+        return v;
     }
 }
