@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.isZero;
+
 /**
  * The `Cylinder` class represents a cylinder in 3D space, defined by a central `Ray` axis, a radius, and a height.
  * A cylinder is a type of `Tube` object that has a finite height and no end caps.
@@ -39,6 +41,12 @@ public class Cylinder extends Tube {
 
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        if(point.equals(axisRay.getP0()))throw new IllegalArgumentException("point in the center of first base");
+        if(point.equals(axisRay.getP0().add(axisRay.getDir().scale(height))))throw new IllegalArgumentException("point in the center of second base");
+        if(point.equals(axisRay.getP0().subtract(point).length()==radius))throw new IllegalArgumentException("point on the edge of first base");
+        if(point.equals(axisRay.getP0().add(axisRay.getDir().scale(height)).subtract(point).length()==radius))throw new IllegalArgumentException("point on the edge of second base");
+        if(!(!isZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir())) && !isZero(point.subtract(axisRay.getP0().add(axisRay.getDir().scale(height))).dotProduct(axisRay.getDir()))))
+            return axisRay.getDir();
+        return super.getNormal(point);
     }
 }

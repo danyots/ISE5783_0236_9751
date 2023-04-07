@@ -21,13 +21,13 @@ class TubeTest {
         // ============ Equivalence Partitions Tests ==============
         Point p0 = new Point(0, 0, 0);
         Point p1 = new Point(1, 0, 0);
-        Point side = new Point(2, 0, 1);
         Vector v= p1.subtract(p0);
         double radius =1;
         Ray axis = new Ray(p0,v);
         // TC01: There is a simple single test here - a point and an axis
         Tube tube = new Tube(axis,radius);
         // ensure there are no exceptions
+        Point side = new Point(2, 0, 1);
         assertDoesNotThrow(() -> tube.getNormal(side), "");
         // generate the test result
         Vector result = tube.getNormal(side);
