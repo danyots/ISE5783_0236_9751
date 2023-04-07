@@ -39,6 +39,12 @@ public class Cylinder extends Tube {
         return "Cylinder{" + "height=" + height + ", axisRay=" + axisRay + ", radius=" + radius + "}";
     }
 
+    /**
+     * Returns the normal to a point on the cylinder.
+     *
+     * @param point is the point on the cylinder
+     *@throws IllegalArgumentException if the point in the center of one of the bases or on the edge of one of the bases.
+     */
     @Override
     public Vector getNormal(Point point) {
         if(point.equals(axisRay.getP0()))throw new IllegalArgumentException("point in the center of first base");

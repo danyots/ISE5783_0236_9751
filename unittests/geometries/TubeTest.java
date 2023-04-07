@@ -8,7 +8,7 @@ import primitives.Ray;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for primitives.Point class
+ * Unit tests for geometries.Tube class
  * @author Daniel Tsirkin, Getachwe Wenedemagen
  */
 class TubeTest {

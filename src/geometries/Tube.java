@@ -41,6 +41,12 @@ public class Tube extends RadialGeometry {
         return "Tube{" + "axisRay=" + axisRay + ", radius=" + radius + "}";
     }
 
+    /**
+     * Returns the normal to a point on the tube.
+     *
+     * @param point is the point on the tube.
+     *
+     */
     @Override
     public Vector getNormal(Point point) {
         Vector v = axisRay.getDir();

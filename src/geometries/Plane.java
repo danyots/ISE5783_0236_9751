@@ -35,7 +35,12 @@ public class Plane implements Geometry {
         normal = v.normalize();
     }
 
-
+    /**
+     * Returns the normal to a point on the plane.
+     *
+     * @param point is the point on the plane
+     *
+     */
     @Override
     public Vector getNormal(Point point) {
         return normal;

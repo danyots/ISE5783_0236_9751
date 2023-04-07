@@ -8,7 +8,7 @@ import primitives.Vector;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for primitives.Point class
+ * Unit tests for geometries.Cylinder class
  * @author Daniel Tsirkin, Getachwe Wenedemagen
  */
 class CylinderTest {

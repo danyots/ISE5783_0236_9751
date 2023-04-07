@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
 
 /**
- * Unit tests for primitives.Point class
+ * Unit tests for geometries.Plane class
  *
  * @author Daniel Tsirkin, Getachwe Wenedemagen
  */

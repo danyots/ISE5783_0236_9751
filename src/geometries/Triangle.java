@@ -22,6 +22,12 @@ public class Triangle extends Polygon {
         super(p1, p2, p3);
     }
 
+    /**
+     * Returns the normal to a point on the triangle.
+     *
+     * @param point is the point on the triangle
+     *
+     */
     public Vector getNormal(Point point) {
         return super.getNormal(point);
     }
