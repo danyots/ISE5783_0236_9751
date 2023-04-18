@@ -1,8 +1,5 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Vector;
-
 /**
  * The abstract class RadialGeometry represents a geometry object with a radial size.
  */

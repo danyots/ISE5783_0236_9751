@@ -1,7 +1,5 @@
 package geometries;
 
-import java.util.List;
-
 import primitives.Point;
 import primitives.Vector;
 
@@ -26,7 +24,6 @@ public class Triangle extends Polygon {
      * Returns the normal to a point on the triangle.
      *
      * @param point is the point on the triangle
-     *
      */
     public Vector getNormal(Point point) {
         return super.getNormal(point);

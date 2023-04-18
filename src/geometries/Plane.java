@@ -1,6 +1,5 @@
 package geometries;
 
-import geometries.Geometry;
 import primitives.Point;
 import primitives.Vector;
 
@@ -14,6 +13,7 @@ public class Plane implements Geometry {
 
     /**
      * Constructs a plane from three non-collinear points.
+     *
      * @param p1 The first point
      * @param p2 The second point
      * @param p3 The third point
@@ -27,6 +27,7 @@ public class Plane implements Geometry {
 
     /**
      * Constructs a plane from a point and a normal vector.
+     *
      * @param p a point in the plane
      * @param v The normal vector
      */
@@ -39,7 +40,6 @@ public class Plane implements Geometry {
      * Returns the normal to a point on the plane.
      *
      * @param point is the point on the plane
-     *
      */
     @Override
     public Vector getNormal(Point point) {
@@ -48,6 +48,7 @@ public class Plane implements Geometry {
 
     /**
      * Returns the point that defines the plane.
+     *
      * @return The point that defines the plane
      */
     public Point getQ0() {
@@ -56,6 +57,7 @@ public class Plane implements Geometry {
 
     /**
      * Returns the normal vector of the plane.
+     *
      * @return The normal vector of the plane
      */
     public Vector getNormal() {

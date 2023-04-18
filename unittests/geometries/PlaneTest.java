@@ -62,7 +62,7 @@ class PlaneTest {
         // ensure the result is orthogonal to all the edges
         Vector v1 = p1.subtract(p2);
         Vector v2 = p1.subtract(p3);
-        assertTrue(isZero(result.dotProduct(v1)), "the normal is not orthogonal to a vector in the plane");
-        assertTrue(isZero(result.dotProduct(v2)), "the normal is not orthogonal to a vector in the plane");
+        assertEquals(0,result.dotProduct(v1),0.00001, "the normal is not orthogonal to a vector in the plane");
+        assertEquals(0,result.dotProduct(v2),0.00001, "the normal is not orthogonal to a vector in the plane");
     }
 }

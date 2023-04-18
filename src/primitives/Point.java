@@ -1,12 +1,6 @@
 package primitives;
 
 /**
- * The Point class represents a point in 3D space. A point is defined by 3 coordinates.
- */
-
-import java.util.Objects;
-
-/**
  * The Point class represents a point in 3D space.
  */
 public class Point {

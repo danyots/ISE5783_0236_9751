@@ -1,4 +1,5 @@
 package primitives;
+
 /**
  * The Vector class represents a vector in 3D space. A vctor is defined by 3 coordinates.
  */
@@ -103,10 +104,11 @@ public class Vector extends Point {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Vector other) {
-            return this.xyz.equals(other.xyz) ;
+            return this.xyz.equals(other.xyz);
         }
         return false;
     }
+
     @Override
     public String toString() {
         return "Vector{" + "xyz=" + xyz + "}";

@@ -1,7 +1,4 @@
-/**
- * The Geometry interface defines a contract for all geometry objects.
- * Geometry objects must provide a method for computing the normal vector at a given point.
- */
+
 package geometries;
 
 import primitives.Point;

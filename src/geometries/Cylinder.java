@@ -16,9 +16,9 @@ public class Cylinder extends Tube {
     /**
      * Constructs a new `Cylinder` object with the specified height, central `Ray` axis, and radius.
      *
-     * @param h  the height of the cylinder
+     * @param h       the height of the cylinder
      * @param axisray the central `Ray` axis of the cylinder
-     * @param r  the radius of the cylinder
+     * @param r       the radius of the cylinder
      */
     public Cylinder(double h, Ray axisray, double r) {
         super(axisray, r);
@@ -43,15 +43,18 @@ public class Cylinder extends Tube {
      * Returns the normal to a point on the cylinder.
      *
      * @param point is the point on the cylinder
-     *@throws IllegalArgumentException if the point in the center of one of the bases or on the edge of one of the bases.
+     * @throws IllegalArgumentException if the point in the center of one of the bases or on the edge of one of the bases.
      */
     @Override
     public Vector getNormal(Point point) {
-        if(point.equals(axisRay.getP0()))throw new IllegalArgumentException("point in the center of first base");
-        if(point.equals(axisRay.getP0().add(axisRay.getDir().scale(height))))throw new IllegalArgumentException("point in the center of second base");
-        if(point.equals(axisRay.getP0().subtract(point).length()==radius))throw new IllegalArgumentException("point on the edge of first base");
-        if(point.equals(axisRay.getP0().add(axisRay.getDir().scale(height)).subtract(point).length()==radius))throw new IllegalArgumentException("point on the edge of second base");
-        if(!(!isZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir())) && !isZero(point.subtract(axisRay.getP0().add(axisRay.getDir().scale(height))).dotProduct(axisRay.getDir()))))
+        if (point.equals(axisRay.getP0())) return axisRay.getDir();
+        if (point.equals(axisRay.getP0().add(axisRay.getDir().scale(height))))
+            return axisRay.getDir();
+        if (point.equals(axisRay.getP0().subtract(point).length() == radius))
+            return point.subtract(axisRay.getP0()).normalize();
+        if (point.equals(axisRay.getP0().add(axisRay.getDir().scale(height)).subtract(point).length() == radius))
+            return point.subtract(axisRay.getP0()).normalize();
+        if (!(!isZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir())) && !isZero(point.subtract(axisRay.getP0().add(axisRay.getDir().scale(height))).dotProduct(axisRay.getDir()))))
             return axisRay.getDir();
         return super.getNormal(point);
     }
