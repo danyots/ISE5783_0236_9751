@@ -47,7 +47,9 @@ public class Ray {
         }
         return false;
     }
-
+     public Point getPoint(double t){
+        return p0.add(dir.scale(t));
+     }
 
     @Override
     public String toString() {

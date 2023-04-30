@@ -2,6 +2,8 @@ package geometries;
 
 import primitives.*;
 
+import java.util.List;
+
 /**
  * The `Tube` class represents a tube in 3D space, defined by a central `Ray` axis and a radius.
  * A tube is a type of `RadialGeometry` object that has no end caps.
@@ -53,6 +55,10 @@ public class Tube extends RadialGeometry {
 
         Point o = p0.add(v.scale(t));
         return point.subtract(o).normalize();
+    }
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }
 

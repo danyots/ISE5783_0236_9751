@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static primitives.Util.isZero;
 
 /**
@@ -57,5 +59,10 @@ public class Cylinder extends Tube {
         if (!(!isZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir())) && !isZero(point.subtract(axisRay.getP0().add(axisRay.getDir().scale(height))).dotProduct(axisRay.getDir()))))
             return axisRay.getDir();
         return super.getNormal(point);
+    }
+
+    //@Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
     }
 }

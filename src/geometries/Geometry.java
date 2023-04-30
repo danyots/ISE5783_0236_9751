@@ -8,7 +8,7 @@ import primitives.Vector;
  * The abstract class Geometry represents a geometry object.
  */
 
-public interface Geometry {
+public interface Geometry extends Intersectable{
 
     /**
      * Computes the normal vector at the specified point on the surface of the geometry object.
