@@ -3,6 +3,7 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import static primitives.Util.*;
 
 import java.util.List;
 
@@ -34,17 +35,27 @@ public class Triangle extends Polygon {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        Vector v1= vertices.get(0).subtract(ray.getP0());
-        Vector v2= vertices.get(1).subtract(ray.getP0());
-        Vector v3= vertices.get(2).subtract(ray.getP0());
+        List<Point> planeIntersects = plane.findIntersections(ray);
+        if (planeIntersects == null) return null;
+
+        Point p0 = ray.getP0();
+        Vector dir = ray.getDir();
+        Vector v1 = vertices.get(0).subtract(p0);
+        Vector v2 = vertices.get(1).subtract(p0);
         Vector n1 = v1.crossProduct(v2).normalize();
+        double t1 = alignZero(dir.dotProduct(n1));
+        if (t1 == 0) return null;
+
+        Vector v3 = vertices.get(2).subtract(p0);
         Vector n2 = v2.crossProduct(v3).normalize();
+        double t2 = alignZero(dir.dotProduct(n2));
+        if (t1 * t2 <= 0) return null;
+
         Vector n3 = v3.crossProduct(v1).normalize();
-        double t1 = ray.getDir().dotProduct(n1);
-        double t2 = ray.getDir().dotProduct(n2);
-        double t3 = ray.getDir().dotProduct(n3);
-        if((t1>0&&t2>0&&t3>0)||(t1<0&&t2<0&&t3<0)) return plane.findIntersections(ray);
-        return null;
+        double t3 = alignZero(dir.dotProduct(n3));
+        if (t1 * t3 <= 0) return null;
+
+        return planeIntersects;
     }
 
     @Override

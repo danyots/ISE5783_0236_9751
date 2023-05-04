@@ -1,5 +1,10 @@
 package geometries;
 
+import primitives.Point;
+import primitives.Ray;
+
+import java.util.List;
+
 /**
  * The abstract class RadialGeometry represents a geometry object with a radial size.
  */
@@ -9,6 +14,10 @@ public abstract class RadialGeometry implements Geometry {
      */
     final protected double radius;
 
+    /**
+     * The squared radius of the radial geometry object.
+     */
+    final protected double radius2;
 
     /**
      * Constructs a new RadialGeometry object with the specified radius.
@@ -17,5 +26,7 @@ public abstract class RadialGeometry implements Geometry {
      */
     public RadialGeometry(double r) {
         radius = r;
+        radius2 = r * r;
     }
+
 }

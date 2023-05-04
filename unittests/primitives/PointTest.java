@@ -3,8 +3,8 @@ package primitives;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for primitives.Point class
@@ -64,6 +64,6 @@ public class PointTest {
         // TC01: distance between 2 different points.
         Point p1 = new Point(1, 2, 3);
         Point p2 = new Point(5, 4, 7);
-        assertEquals(6,p1.distance(p2), 0.00001, "ERROR: distance() wrong  result length");
+        assertEquals(6, p1.distance(p2), 0.00001, "ERROR: distance() wrong  result length");
     }
 }

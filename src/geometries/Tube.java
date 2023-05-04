@@ -1,6 +1,10 @@
 package geometries;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Util;
+import primitives.Vector;
+import primitives.Util.*;
 
 import java.util.List;
 
@@ -56,9 +60,60 @@ public class Tube extends RadialGeometry {
         Point o = p0.add(v.scale(t));
         return point.subtract(o).normalize();
     }
+
     @Override
     public List<Point> findIntersections(Ray ray) {
+        Vector v = ray.getDir();
+        Vector vTube = axisRay.getDir();
+        Point p0 = ray.getP0();
+        Point q0 = axisRay.getP0();
+        if (v.equals(vTube) || v.equals(vTube.scale(-1))) return null;
+        Vector firstV;
+        if (Util.isZero(v.dotProduct(vTube))) {
+            firstV = v;
+        } else {
+            firstV = v.subtract(vTube.scale(v.dotProduct(vTube)));
+        }
+        double a = Util.alignZero(firstV.lengthSquared());
+        if (p0.equals(q0)) {
+            Point p = ray.getPoint(Util.alignZero(radius / Util.alignZero(v.subtract(vTube.scale(v.dotProduct(vTube))).length())));
+            return List.of(p);
+        }
+        Vector deltaP = p0.subtract(q0);
+        Vector secondV;
+        double b;
+        double c;
+        if (Util.isZero(deltaP.dotProduct(vTube))) {
+            secondV = deltaP;
+            b = 2 * Util.alignZero(firstV.dotProduct(secondV));
+            c = Util.alignZero(secondV.lengthSquared() - radius * radius);
+        } else {
+            if (deltaP.equals(vTube.scale(deltaP.dotProduct(vTube)))) {
+                b = 0;
+                c = Util.alignZero(-1*radius*radius);
+            } else {
+                secondV = deltaP.subtract(vTube.scale(deltaP.dotProduct(vTube)));
+                b = 2 * Util.alignZero(firstV.dotProduct(secondV));
+                c = Util.alignZero(secondV.lengthSquared() - radius * radius);
+            }
+
+
+            double discriminant = Util.alignZero(b * b - 4 * a * c);
+            if (discriminant <= 0) return null;
+            else {
+                double t1 = Util.alignZero(((-b) + Math.sqrt(discriminant)) / (2 * a));
+                double t2 = Util.alignZero(((-b) - Math.sqrt(discriminant)) / (2 * a));
+                Point p1 = ray.getPoint(t1);
+                Point p2 = ray.getPoint(t2);
+                if (t1 <= 0 && t2 <= 0) return null;
+                else if (t1 > 0 && t2 <= 0) return List.of(p1);
+                else if (t2 > 0 && t1 <= 0) return List.of(p2);
+                return List.of(p1, p2);
+            }
+
+        }
         return null;
     }
+
 }
 

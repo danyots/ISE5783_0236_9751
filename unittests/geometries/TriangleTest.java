@@ -8,8 +8,8 @@ import primitives.Vector;
 import java.util.List;
 
 import static org.junit.gen5.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for geometries.Triangle class
@@ -39,15 +39,16 @@ class TriangleTest {
         // ensure the result is orthogonal to all the edges
         Vector v1 = p1.subtract(p2);
         Vector v2 = p1.subtract(p3);
-        assertEquals(0,result.dotProduct(v1),0.00001, "the normal is not orthogonal to a vector in the Triangle");
-        assertEquals(0,result.dotProduct(v2),0.00001, "the normal is not orthogonal to a vector in the Triangle");
+        assertEquals(0, result.dotProduct(v1), 0.00001, "the normal is not orthogonal to a vector in the Triangle");
+        assertEquals(0, result.dotProduct(v2), 0.00001, "the normal is not orthogonal to a vector in the Triangle");
     }
+
     /**
      * Test method for {@link geometries.Triangle#findIntersections(primitives.Ray)}.
      */
     @Test
     public void testFindIntersections() {
-        Triangle tri = new Triangle(new Point(0,2,0),new Point(0,-1,0),new Point(5,-1,0));
+        Triangle tri = new Triangle(new Point(0, 2, 0), new Point(0, -1, 0), new Point(5, -1, 0));
         // ============ Equivalence Partitions Tests ==============
         // TC01: intersection inside the triangle (1 points)
         Point p1 = new Point(1, 0, 0);
@@ -56,24 +57,24 @@ class TriangleTest {
         assertEquals(1, result.size(), "Wrong number of points");
         assertEquals(List.of(p1), result, "Ray crosses triangle inside");
         // TC02: intersection outside the triangle in front of a side (0 points)
-        assertNull(tri.findIntersections(new Ray(new Point(2, 3,3),
+        assertNull(tri.findIntersections(new Ray(new Point(2, 3, 3),
                         new Vector(-1, -1, -1))),
                 "intersection outside the triangle in front of the side ");
         // TC03: intersection outside the triangle in front of a angle (0 points)
-        assertNull(tri.findIntersections(new Ray(new Point(2,1,3),
+        assertNull(tri.findIntersections(new Ray(new Point(2, 1, 3),
                         new Vector(-1, -1, -1))),
                 "intersection outside the triangle in front of a angle");
         // =============== Boundary Values Tests ==================
         // TC11: intersection in an angle of the triangle  (0 points)
-        assertNull(tri.findIntersections(new Ray(new Point(3,5,3),
+        assertNull(tri.findIntersections(new Ray(new Point(3, 5, 3),
                         new Vector(-1, -1, -1))),
                 "intersection in an angle of the triangle ");
         // TC12: intersection in a side of the triangle (0 points)
-        assertNull(tri.findIntersections(new Ray(new Point(3,4,3),
+        assertNull(tri.findIntersections(new Ray(new Point(3, 4, 3),
                         new Vector(-1, -1, -1))),
                 "intersection in a side of the triangle  ");
         // TC13: intersection with the continuation of a side(0 points)
-        assertNull(tri.findIntersections(new Ray(new Point(3,7,3),
+        assertNull(tri.findIntersections(new Ray(new Point(3, 7, 3),
                         new Vector(-1, -1, -1))),
                 "intersection with the continuation of a side");
 

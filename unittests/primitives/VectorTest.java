@@ -3,7 +3,6 @@ package primitives;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
 
 /**
  * Unit tests for primitives.Vector class
@@ -92,11 +91,11 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
         // TC01: dotProduct of 2 not orthogonal vectors
         Vector v2 = new Vector(-2, -4, -6);
-        assertEquals(-28,v1.dotProduct(v2) ,0.00001, "ERROR: dotProduct() wrong value");
+        assertEquals(-28, v1.dotProduct(v2), 0.00001, "ERROR: dotProduct() wrong value");
         // =============== Boundary Values Tests ==================
         // TC010: dotProduct of 2  orthogonal vectors
         Vector v3 = new Vector(0, 3, -2);
-        assertEquals(0,v1.dotProduct(v3),0.00001, "ERROR: dotProduct() for orthogonal vectors is not zero");
+        assertEquals(0, v1.dotProduct(v3), 0.00001, "ERROR: dotProduct() for orthogonal vectors is not zero");
     }
 
     /**
@@ -110,11 +109,11 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
         // TC01: dotProduct of 2 not parallel vectors
         Vector vr = v1.crossProduct(v3);
-        assertEquals(v1.length() * v3.length(),vr.length(),0.00001, "ERROR: crossProduct() wrong result length");
+        assertEquals(v1.length() * v3.length(), vr.length(), 0.00001, "ERROR: crossProduct() wrong result length");
         //TC02: tests if the result vector is orthogonal to its operand
-        assertEquals(0,vr.dotProduct(v1), 0.00001, "ERROR: crossProduct() result is not orthogonal to its operands");
+        assertEquals(0, vr.dotProduct(v1), 0.00001, "ERROR: crossProduct() result is not orthogonal to its operands");
         //TC03: tests if the result vector is orthogonal to its operand
-        assertEquals(0,vr.dotProduct(v3), 0.00001, "ERROR: crossProduct() result is not orthogonal to its operands");
+        assertEquals(0, vr.dotProduct(v3), 0.00001, "ERROR: crossProduct() result is not orthogonal to its operands");
         // =============== Boundary Values Tests ==================
         // TC010: dotProduct of 2  parallel vectors
         Vector v2 = new Vector(-2, -4, -6);
@@ -131,7 +130,7 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
         // TC01: lengthSquared of a vector
         Vector v = new Vector(1, 2, 3);
-        assertEquals(14,v.lengthSquared(),0.00001, "ERROR: lengthSquared() wrong value");
+        assertEquals(14, v.lengthSquared(), 0.00001, "ERROR: lengthSquared() wrong value");
     }
 
     /**
@@ -143,7 +142,7 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
         // TC01: length of a vector
         Vector v = new Vector(0, 3, 4);
-        assertEquals(5,v.length() ,0.00001, "ERROR: length() wrong value");
+        assertEquals(5, v.length(), 0.00001, "ERROR: length() wrong value");
     }
 
     /**
@@ -156,7 +155,7 @@ class VectorTest {
         Vector v = new Vector(1, 2, 3);
         Vector normal = v.normalize();
         // TC01: is the normalized vector a unit one
-        assertEquals(1,normal.length() ,0.00001, "ERROR: the normalized vector is not a unit vector");
+        assertEquals(1, normal.length(), 0.00001, "ERROR: the normalized vector is not a unit vector");
         // TC02: is the normalized vector parallel to the original one
         assertThrows(IllegalArgumentException.class, () -> v.crossProduct(normal), "ERROR: the normalized vector is not parallel to the original one");
         // TC03: is the normalized vector the same direction as the original one

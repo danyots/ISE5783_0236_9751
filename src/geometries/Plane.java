@@ -3,9 +3,11 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import static primitives.Util.*;
 
 import java.util.List;
+
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * The Plane class represents a mathematical plane in three-dimensional space.
@@ -70,12 +72,11 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        if(q0.equals(ray.getP0()))return null;
+        if (q0.equals(ray.getP0())) return null;
         double nv = normal.dotProduct(ray.getDir());
         if (isZero(nv)) return null;
-        double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0()))/nv);
-        if(t>0) return List.of(ray.getPoint(t));
-        return null;
+        double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / nv);
+        return t > 0 ? List.of(ray.getPoint(t)) : null;
     }
 
 
