@@ -14,6 +14,12 @@ import static org.junit.gen5.api.Assertions.assertEquals;
 
 
 class IntegrationTests {
+    /**
+     Calculates the number of intersections between a given Intersectable shape and a Ray originating from a specified Point p0
+     @param shape The Intersectable shape to calculate intersections with
+     @param p0 The starting Point of the Ray
+     @return The total number of intersections between the shape and the Ray
+     */
     private int numIntersections(Intersectable shape, Point p0) {
         int sum = 0;
         Camera camera = new Camera(p0, new Vector(0, 0, -1), new Vector(0, 1, 0));
