@@ -6,22 +6,25 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import unittests.renderer.Camera;
+import renderer.Camera;
 
 import java.util.List;
 
 import static org.junit.gen5.api.Assertions.assertEquals;
+
 /**
  * Testing integration between Creating rays between the camera
  * And calculation of sections of a beam with geometric bodies
- * @author Daniel and Getachew
- */
+ *
+ * @author Daniel and Getachew
+ */
 class IntegrationTests {
     /**
-     Calculates the number of intersections between a given Intersectable shape and a Ray originating from a specified Point p0
-     @param shape The Intersectable shape to calculate intersections with
-     @param p0 The starting Point of the Ray
-     @return The total number of intersections between the shape and the Ray
+     * Calculates the number of intersections between a given Intersectable shape and a Ray originating from a specified Point p0
+     *
+     * @param shape The Intersectable shape to calculate intersections with
+     * @param p0    The starting Point of the Ray
+     * @return The total number of intersections between the shape and the Ray
      */
     private int numIntersections(Intersectable shape, Point p0) {
         int sum = 0;
@@ -87,7 +90,7 @@ class IntegrationTests {
         // TC02: 2 intersection points with triangle
         tri = new Triangle(new Point(0, 20, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
         sum = numIntersections(tri, new Point(0, 0, 0));
-        assertEquals(2, sum, "Wrong number of points with triangle- must be 2");
+        assertEquals(2, sum, "Wrong number of points with triangle- must be 2");
     }
 }
 

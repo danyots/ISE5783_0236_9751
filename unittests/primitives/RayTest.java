@@ -4,8 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.gen5.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for primitives.Ray class
+ *
+ * @author Daniel Tsirkin, Getachwe Wenedemagen
+ */
 class RayTest {
 
+    /**
+     * Test method for {@link primitives.Ray#getPoint(double)}.
+     */
     @Test
     void getPoint() {
         // ============ Equivalence Partitions Tests ==============
