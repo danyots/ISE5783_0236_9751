@@ -11,8 +11,11 @@ import unittests.renderer.Camera;
 import java.util.List;
 
 import static org.junit.gen5.api.Assertions.assertEquals;
-
-
+/**
+ * Testing integration between Creating rays between the camera
+ * And calculation of sections of a beam with geometric bodies
+ * @author Daniel and Getachew
+ */
 class IntegrationTests {
     /**
      Calculates the number of intersections between a given Intersectable shape and a Ray originating from a specified Point p0
@@ -37,53 +40,54 @@ class IntegrationTests {
 
     @Test
     void testIntegrationSphere() {
-        // TC01: Correct concave quadrangular with vertices in correct order
+        // TC01: 2 intersection points with sphere
         Sphere sphere = new Sphere(new Point(0, 0, -3), 1);
         int sum = numIntersections(sphere, new Point(0, 0, 0));
-        assertEquals(2, sum, "Wrong number of points");
-        // TC02: Correct concave quadrangular with vertices in correct order
+        assertEquals(2, sum, "Wrong number of points  with sphere- must be 2");
+        // TC02: 18 intersection points with sphere
         sphere = new Sphere(new Point(0, 0, -2.5), 2.5);
         sum = numIntersections(sphere, new Point(0, 0, 0.5));
-        assertEquals(18, sum, "Wrong number of points");
-        // TC03: Correct concave quadrangular with vertices in correct order
+        assertEquals(18, sum, "Wrong number of points  with sphere- must be 18");
+        // TC03: 10 intersection points with sphere
         sphere = new Sphere(new Point(0, 0, -2), 2);
         sum = numIntersections(sphere, new Point(0, 0, 0.5));
-        assertEquals(10, sum, "Wrong number of points");
-        // TC04: Correct concave quadrangular with vertices in correct order
+        assertEquals(10, sum, "Wrong number of points  with sphere- must be 10");
+        // TC04: 9 intersection points with sphere
         sphere = new Sphere(new Point(0, 0, 0), 4);
         sum = numIntersections(sphere, new Point(0, 0, 0.5));
-        assertEquals(9, sum, "Wrong number of points");
-        // TC05: Correct concave quadrangular with vertices in correct order
+        assertEquals(9, sum, "Wrong number of points  with sphere- must be 9");
+        // TC05: no intersection points with sphere
         sphere = new Sphere(new Point(0, 0, 1), 0.5);
         sum = numIntersections(sphere, new Point(0, 0, -1));
-        assertEquals(0, sum, "Wrong number of points");
+        assertEquals(0, sum, "Wrong number of points  with sphere - must be 0");
     }
 
     @Test
     void testIntegrationPlane() {
-        // TC01: Correct concave quadrangular with vertices in correct order
+        // TC01: 9 intersection points with plane - parallel to view plane
         Plane plane = new Plane(new Point(2, 4, -5), new Point(0, 4, -5), new Point(-3, 7, -5));
         int sum = numIntersections(plane, new Point(0, 0, 0));
-        assertEquals(9, sum, "Wrong number of points");
-        // TC02: Correct concave quadrangular with vertices in correct order
+        assertEquals(9, sum, "Wrong number of points  with plane - parallel to view plane- must be 9");
+        // TC02: 9 intersection points with plane - not parallel to view plane
         plane = new Plane(new Point(1.5, 1.5, -1), new Point(-1.5, 1.5, -1), new Point(0, 0, -2));
         sum = numIntersections(plane, new Point(0, 0, 0));
-        assertEquals(9, sum, "Wrong number of points");
-        // TC03: Correct concave quadrangular with vertices in correct order
+        assertEquals(9, sum, "Wrong number of points  with plane-- not parallel to view plane- must be 9");
+        // TC03: 6 intersection points with plane - not parallel to view plane
         plane = new Plane(new Point(1.5, 1.5, -1), new Point(-1.5, 1.5, -1), new Point(0, 0, -20));
         sum = numIntersections(plane, new Point(0, 0, 0));
-        assertEquals(6, sum, "Wrong number of points");
+        assertEquals(6, sum, "Wrong number of points with plane-- not parallel to view plane- must be 6");
     }
 
     @Test
     void testIntegrationTriangle() {
-        // TC01: Correct concave quadrangular with vertices in correct order
+        // TC01: 1 intersection point with triangle
         Triangle tri = new Triangle(new Point(0, 1, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
         int sum = numIntersections(tri, new Point(0, 0, 0));
-        assertEquals(1, sum, "Wrong number of points");
-        // TC02: Correct concave quadrangular with vertices in correct order
+        assertEquals(1, sum, "Wrong number of points with triangle- must be 1");
+        // TC02: 2 intersection points with triangle
         tri = new Triangle(new Point(0, 20, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
         sum = numIntersections(tri, new Point(0, 0, 0));
-        assertEquals(2, sum, "Wrong number of points");
+        assertEquals(2, sum, "Wrong number of points with triangle- must be 2");
     }
 }
+
