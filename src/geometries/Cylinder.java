@@ -61,58 +61,57 @@ public class Cylinder extends Tube {
             return axisRay.getDir();
         return super.getNormal(point);
     }
-    public boolean inCylinder(Point p){
+
+    public boolean inCylinder(Point p) {
         Vector v = p.subtract(axisRay.getP0());
         double delta = Util.alignZero(p.subtract(axisRay.getP0()).length());
-        double distance = Util.alignZero(Math.sqrt(delta*delta-radius*radius));
-        return distance<height && distance>0 && v.dotProduct(axisRay.getDir())>0;
+        double distance = Util.alignZero(Math.sqrt(delta * delta - radius * radius));
+        return distance < height && distance > 0 && v.dotProduct(axisRay.getDir()) > 0;
     }
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        if(axisRay.getDir().equals(ray.getDir())){
-            if(axisRay.getP0().equals(ray.getP0()))return List.of(ray.getPoint(height));
+        if (axisRay.getDir().equals(ray.getDir())) {
+            if (axisRay.getP0().equals(ray.getP0())) return List.of(ray.getPoint(height));
             Vector delta = ray.getP0().subtract(axisRay.getP0());
             double t = Util.alignZero(delta.dotProduct(axisRay.getDir()));
-            double distance = Util.alignZero(Math.sqrt(delta.lengthSquared()-t*t));
-            if(distance<radius&&t<0) return List.of(ray.getPoint(-t),ray.getPoint(-t+height));
-            else if(distance<radius&&t>0&&t<height)return List.of(ray.getPoint(height-t));
-            else if(distance<radius&&t>=height)return null;
-            else{
+            double distance = Util.alignZero(Math.sqrt(delta.lengthSquared() - t * t));
+            if (distance < radius && t < 0) return List.of(ray.getPoint(-t), ray.getPoint(-t + height));
+            else if (distance < radius && t > 0 && t < height) return List.of(ray.getPoint(height - t));
+            else if (distance < radius && t >= height) return null;
+            else {
                 return null;
             }
-        }
-        else if(axisRay.getDir().equals(ray.getDir().scale(-1))){
-            if(axisRay.getP0().equals(ray.getP0()))return null;
+        } else if (axisRay.getDir().equals(ray.getDir().scale(-1))) {
+            if (axisRay.getP0().equals(ray.getP0())) return null;
             Vector delta = ray.getP0().subtract(axisRay.getP0());
             double t = Util.alignZero(delta.dotProduct(axisRay.getDir()));
-            double distance = Util.alignZero(Math.sqrt(delta.lengthSquared()-t*t));
-            if(distance<radius&&t<0) return null;
-            else if(distance<radius&&t>0&&t<height)return List.of(ray.getPoint(-t));
-            else if(distance<radius&&t>height)return List.of(ray.getPoint(t),ray.getPoint(t-height));
-            else{
+            double distance = Util.alignZero(Math.sqrt(delta.lengthSquared() - t * t));
+            if (distance < radius && t < 0) return null;
+            else if (distance < radius && t > 0 && t < height) return List.of(ray.getPoint(-t));
+            else if (distance < radius && t > height) return List.of(ray.getPoint(t), ray.getPoint(t - height));
+            else {
                 return null;
             }
         }
         List<Point> list1 = super.findIntersections(ray);
-        if(list1==null)return null;
-        if(list1.size()==1){
+        if (list1 == null) return null;
+        if (list1.size() == 1) {
             Point p = list1.get(0);
             boolean in = inCylinder(p);
-            if(in){
+            if (in) {
                 return list1;
             }
             return null;
-        }
-        else if(list1.size()==2){
+        } else if (list1.size() == 2) {
             Point p1 = list1.get(0);
             Point p2 = list1.get(1);
             boolean intersect1 = inCylinder(p1);
             boolean intersect2 = inCylinder(p2);
-            if(intersect1 && intersect2) return list1;
-            if(!intersect1 && intersect2) return List.of(p2);
-            if(intersect1 && !intersect2) return List.of(p1);
-            if(!intersect1 && !intersect2) return null;
+            if (intersect1 && intersect2) return list1;
+            if (!intersect1 && intersect2) return List.of(p2);
+            if (intersect1 && !intersect2) return List.of(p1);
+            if (!intersect1 && !intersect2) return null;
         }
         return null;
     }

@@ -4,7 +4,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
-import primitives.Util.*;
 
 import java.util.List;
 
@@ -90,7 +89,7 @@ public class Tube extends RadialGeometry {
         } else {
             if (deltaP.equals(vTube.scale(deltaP.dotProduct(vTube)))) {
                 b = 0;
-                c = Util.alignZero(-1*radius*radius);
+                c = Util.alignZero(-1 * radius * radius);
             } else {
                 secondV = deltaP.subtract(vTube.scale(deltaP.dotProduct(vTube)));
                 b = 2 * Util.alignZero(firstV.dotProduct(secondV));

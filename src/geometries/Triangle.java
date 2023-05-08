@@ -3,9 +3,10 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import static primitives.Util.*;
 
 import java.util.List;
+
+import static primitives.Util.alignZero;
 
 /**
  * The Triangle class is a polygon with three vertices.

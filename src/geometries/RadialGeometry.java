@@ -1,10 +1,5 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-
-import java.util.List;
-
 /**
  * The abstract class RadialGeometry represents a geometry object with a radial size.
  */

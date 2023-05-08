@@ -17,7 +17,6 @@ public class Geometries implements Intersectable {
      * A list that holds all the geometries in the collection.
      */
     List<Intersectable> geometries = new LinkedList();
-    ;
 
     /**
      * Constructs a new empty Geometries collection.

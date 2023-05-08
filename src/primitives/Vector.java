@@ -14,7 +14,7 @@ public class Vector extends Point {
      */
     public Vector(double d1, double d2, double d3) {
         super(d1, d2, d3);
-        if (xyz.equals(xyz.ZERO)) throw new IllegalArgumentException("vector cannot be zero");
+        if (xyz.equals(Double3.ZERO)) throw new IllegalArgumentException("vector cannot be zero");
     }
 
     /**
@@ -26,7 +26,7 @@ public class Vector extends Point {
      */
     Vector(Double3 coordinates) {
         super(coordinates);
-        if (xyz.equals(xyz.ZERO)) throw new IllegalArgumentException("vector cannot be zero");
+        if (xyz.equals(Double3.ZERO)) throw new IllegalArgumentException("vector cannot be zero");
     }
 
     /**

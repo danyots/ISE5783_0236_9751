@@ -7,11 +7,8 @@ import primitives.Vector;
 
 import java.util.List;
 
-
-import static org.junit.gen5.api.Assertions.assertNotNull;
-import static org.junit.gen5.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.gen5.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
  * Unit tests for geometries.Tube class
@@ -39,7 +36,7 @@ class TubeTest {
         // generate the test result
         Vector result = tube.getNormal(side);
         // ensure |result| = 1
-        assertEquals(1.0, result.length(),  "Tube's normal is not a unit vector");
+        assertEquals(1.0, result.length(), "Tube's normal is not a unit vector");
         //is the excepted normal
         assertEquals(new Vector(0, 0, 1), result, "the normal is incorrect");
         // =============== Boundary Values Tests ==================
@@ -50,6 +47,7 @@ class TubeTest {
         //is the excepted normal
         assertEquals(new Vector(0, 0, 1), result2, "the normal is incorrect");
     }
+
     /**
      * Test method for {@link geometries.Tube#findIntersections(Ray)} (primitives.Point)}.
      */
@@ -57,16 +55,16 @@ class TubeTest {
     void findIntersections() {
         Point p1 = new Point(1, 1, 1);
         Vector v1 = new Vector(0, 1, 0);
-        Tube tube1 = new Tube( new Ray(p1, v1),1);
+        Tube tube1 = new Tube(new Ray(p1, v1), 1);
         Point p2 = new Point(1, 1, -7);
         Vector v2 = new Vector(0, 0, 1);
-        Tube tube2 = new Tube( new Ray(p2, v2),1);
+        Tube tube2 = new Tube(new Ray(p2, v2), 1);
 
         Ray ray;
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray's line is outside the tube (0 points)
         ray = new Ray(new Point(1, 1, 2), new Vector(1, 1, 0));
-        assertNull( tube1.findIntersections(ray), "ERROR: Ray's line out of tube");
+        assertNull(tube1.findIntersections(ray), "ERROR: Ray's line out of tube");
 
         // TC02: Ray's crosses the tube (2 points)
         ray = new Ray(new Point(0, 0, 0), new Vector(2, 1, 1));

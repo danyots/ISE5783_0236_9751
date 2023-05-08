@@ -51,9 +51,10 @@ public class Ray {
     }
 
     /**
-     Calculates a point on the ray according to the parameter t.
-     @param t The parameter t that determines the point location on the ray
-     @return A point on the ray according to the parameter t
+     * Calculates a point on the ray according to the parameter t.
+     *
+     * @param t The parameter t that determines the point location on the ray
+     * @return A point on the ray according to the parameter t
      */
     public Point getPoint(double t) {
         return isZero(t) ? p0 : p0.add(dir.scale(t));
