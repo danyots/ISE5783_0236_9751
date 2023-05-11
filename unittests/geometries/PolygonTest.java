@@ -9,6 +9,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
+import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.gen5.api.Assertions.assertNull;
 
 /**
  * Testing Polygons
@@ -82,7 +84,7 @@ public class PolygonTest {
         // generate the test result
         Vector result = pol.getNormal(new Point(0, 0, 1));
         // ensure |result| = 1
-        assertEquals(1, result.length(), 0.00000001, "Polygon's normal is not a unit vector");
+        assertEquals(1.0, result.length(),  "Polygon's normal is not a unit vector");
         // ensure the result is orthogonal to all the edges
         for (int i = 0; i < 3; ++i)
             assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
@@ -103,12 +105,12 @@ public class PolygonTest {
         assertEquals(1, points.size(), "Wrong number of points");
         assertEquals(new Point(0.5, 0.5, 0), points.get(0), "Ray intersection isn't working on polygon");
 
-        //TC02: Ray intersect outside Triangle against edge
+        //TC02: Ray intersect outside polygon against edge
         Ray r2 = new Ray(new Point(-1, -1, 1), new Vector(1, 1, 0));
         assertNull(p.findIntersections(r2),
                 "findIntersections() wrong result");
 
-        //TC03: Ray intersect outside Triangle against vertex
+        //TC03: Ray intersect outside polygon against vertex
         Ray r3 = new Ray(new Point(-1, -1, 1), new Vector(2, 3, -1));
         assertNull(p.findIntersections(r3),
                 "findIntersections() wrong result");

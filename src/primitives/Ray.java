@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 import static primitives.Util.isZero;
 
 /**
@@ -44,10 +46,7 @@ public class Ray {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Ray other) {
-            return this.p0.equals(other.p0) && this.dir.equals(other.dir);
-        }
-        return false;
+        return obj instanceof Ray other && this.p0.equals(other.p0) && this.dir.equals(other.dir);
     }
 
     /**
@@ -63,5 +62,15 @@ public class Ray {
     @Override
     public String toString() {
         return "Ray{" + "p0=" + p0 + ", dir=" + dir + "}";
+    }
+
+    public Point findClosestPoint(List<Point> pointList){
+        if(pointList==null || pointList.size()==0) return null;
+        if(pointList.size()==1) return pointList.get(0);
+        Point closest=pointList.get(0);
+        for(Point p:pointList){
+            if(p0.distance(closest)>p0.distance(p)) closest=p;
+        }
+        return closest;
     }
 }

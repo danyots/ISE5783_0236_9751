@@ -100,22 +100,29 @@ public class Polygon implements Geometry {
         Point p0 = ray.getP0();
 
         // Create a list of vectors from the starting point to each vertex of the polygon
-        List<Vector> vectors = new ArrayList<>(vertices.size());
+        List<Vector> vectors = new ArrayList<>(size);
         for (Point vertex : vertices) {
             vectors.add(vertex.subtract(p0));
         }
-
+        double priv=1;
         // Loop over each vertex of the polygon
         for (int i = 0; i < vertices.size(); i++) {
             // Calculate the normal vector to the plane of the triangle formed by the ray and two edges of the polygon
-            Vector N = vectors.get(i).crossProduct(vectors.get((i + 1) % vertices.size())).normalize();
+            Vector n = vectors.get(i).crossProduct(vectors.get((i + 1) % size)).normalize();
 
             // Calculate the dot product between the ray's direction vector and the normal vector
-            double dotProduct = ray.getDir().dotProduct(N);
+            double dotProduct = ray.getDir().dotProduct(n);
 
-            // If the dot product is negative, then the ray is going away from the polygon
-            if (dotProduct < 0)
+            //on edge or vertex
+            if(dotProduct==0) return null;
+
+            // If the dot product is with different sign than the other , then the ray is going away from the polygon
+            if (dotProduct*priv < 0)
+                if(i==0)priv=-1;
+            else{
                 return null;
+                }
+            priv=dotProduct;
         }
 
         // If the ray intersects the polygon's plane, return the intersection points

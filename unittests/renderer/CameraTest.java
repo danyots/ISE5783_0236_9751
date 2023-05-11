@@ -56,4 +56,21 @@ class CameraTest {
 
     }
 
+
+    @Test
+    void rotate() {
+        Camera camera = new Camera(ZERO_POINT, new Vector(1, 0, -1), new Vector(0, 1, 0)).setVPDistance(10);
+        //TC01: rotate 45 degrees to left
+        Camera camera1 = new Camera(ZERO_POINT, new Vector(1, 0, -1), new Vector(0.5, 0.7071067811865476, 0.5)).setVPDistance(10);
+        Camera roteted = camera.rotateLeft(45);
+        assertEquals(camera1.getvUp(), roteted.getvUp(), "not good rotation");////TC02: rotate 45 degrees to right
+        camera1 = new Camera(ZERO_POINT, new Vector(1, 0, -1), new Vector(-0.5, 0.7071067811865476, -0.5)).setVPDistance(10);
+        roteted = camera.rotateRight(45);
+        assertEquals(camera1.getvUp(), roteted.getvUp(), "not good rotation");
+        //TC03: rotate 45 degrees to right with view plane
+        camera = new Camera(ZERO_POINT, new Vector(1, 0, -1), new Vector(0, 1, 0)).setVPSize(20, 20).setVPDistance(10);
+        camera1 = new Camera(ZERO_POINT, new Vector(1, 0, -1), new Vector(-0.5, 0.7071067811865476, -0.5)).setVPSize(20, 20).setVPDistance(10);
+        roteted = camera.rotateRight(45);
+        assertEquals(camera1.getvUp(), roteted.getvUp(), "not good rotation");
+    }
 }
