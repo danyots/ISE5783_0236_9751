@@ -107,6 +107,24 @@ public class Camera {
         Vector vIJ = pIJ.subtract(p0);
         return new Ray(p0, vIJ);
     }
+
+    public void printGrid(int interval, Color color) {
+        if (imageWriter == null)
+            throw new MissingResourceException("imageWriter is not initialized", "Camera", "imageWriter");
+        for (int i = 0; i < imageWriter.getNx(); i++) {
+            for (int j = 0; j < imageWriter.getNy(); j++) {
+                if (i % interval == 0 || j % interval == 0)
+                    imageWriter.writePixel(i, j, color);
+            }
+        }
+        writeToImage();
+    }
+
+    public void writeToImage(){
+        if (imageWriter == null)
+            throw new MissingResourceException("imageWriter is not initialized", "Camera", "imageWriter");
+        imageWriter.writeToImage();
+    }
     public Camera setImageWriter(ImageWriter imageWriter) {
         this.imageWriter = imageWriter;
         return this;
@@ -116,24 +134,35 @@ public class Camera {
         this.rayTracer = rayTracer;
         return this;
     }
-    public void  renderImage(){
+
+    public void renderImage() {
         List<Object> lst = List.of(p0, vTo, vRight, vUp, width, height, distance, imageWriter, rayTracer);
-        for(Object obj:lst){
-            if(obj==null) {
-                throw new MissingResourceException("feild is uninitialized","Camera",obj.toString());
+        for (Object obj : lst) {
+            if (obj == null) {
+                throw new MissingResourceException("feild is uninitialized", "Camera", obj.toString());
             }
         }
-        throw new UnsupportedOperationException("this method is not supported");
+        int numY=imageWriter.getNy();
+        int numX=imageWriter.getNx();
+        for (int i = 0; i < numY; i++) {
+            for (int j = 0; j < numX; j++) {
+                imageWriter.writePixel(j,i,castRay(numX,numY,i,j));
+            }
+        }
+        writeToImage();
     }
-
+    private Color castRay(int Nx,int Ny,int i,int j){
+        Ray ray = constructRay(Nx,Ny,j,i);
+        return rayTracer.traceRay(ray);
+    }
     public Camera rotateRight(double angle) {
         double theta = -Math.toRadians(angle);
-        return new Camera(p0, vTo, rotate(theta)).setVPSize(width, height).setVPDistance(distance);
+        return new Camera(p0, vTo, rotate(theta)).setVPSize(width, height).setVPDistance(distance).setImageWriter(imageWriter).setRayTracer(rayTracer);
     }
 
     public Camera rotateLeft(double angle) {
         double theta = Math.toRadians(angle);
-        return new Camera(p0, vTo, rotate(theta)).setVPSize(width, height).setVPDistance(distance);
+        return new Camera(p0, vTo, rotate(theta)).setVPSize(width, height).setVPDistance(distance).setImageWriter(imageWriter).setRayTracer(rayTracer);
     }
     /**
      * Rotates the camera's vRight and vUp vectors by the given angle around the vTo vector.
@@ -154,9 +183,9 @@ public class Camera {
         Vector axis = vTo.crossProduct(vUp).normalize();
         double cosAngle = Util.alignZero(Math.cos(angle));
         double sinAngle = Util.alignZero(Math.sin(angle));
-        Vector vupPrime=null;
-        if(!Util.isZero(sinAngle)&&!Util.isZero(cosAngle))vupPrime = vUp.scale(cosAngle).add(axis.scale(sinAngle));
-        else{
+        Vector vupPrime = null;
+        if (!Util.isZero(sinAngle) && !Util.isZero(cosAngle)) vupPrime = vUp.scale(cosAngle).add(axis.scale(sinAngle));
+        else {
             if (Util.isZero(sinAngle)) vupPrime = vUp.scale(cosAngle);
             if (Util.isZero(cosAngle)) vupPrime = axis.scale(sinAngle);
         }

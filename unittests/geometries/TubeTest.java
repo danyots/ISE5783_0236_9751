@@ -434,5 +434,6 @@ class TubeTest {
         ray = new Ray(new Point(value2, value2, value2), new Vector(1, 1, 1));
         result = tube2.findIntersections(ray);
         assertNull(result, "Bad intersections");
+
     }
 }

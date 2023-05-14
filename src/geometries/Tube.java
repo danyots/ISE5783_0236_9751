@@ -96,23 +96,23 @@ public class Tube extends RadialGeometry {
                 c = Util.alignZero(secondV.lengthSquared() - radius * radius);
             }
 
-
-            double discriminant = Util.alignZero(b * b - 4 * a * c);
-            if (discriminant <= 0) return null;
-            else {
-                double t1 = Util.alignZero(((-b) + Math.sqrt(discriminant)) / (2 * a));
-                double t2 = Util.alignZero(((-b) - Math.sqrt(discriminant)) / (2 * a));
-                Point p1 = ray.getPoint(t1);
-                Point p2 = ray.getPoint(t2);
-                if (t1 <= 0 && t2 <= 0) return null;
-                else if (t1 > 0 && t2 <= 0) return List.of(p1);
-                else if (t2 > 0 && t1 <= 0) return List.of(p2);
-                return List.of(p1, p2);
-            }
-
         }
-        return null;
+
+        double discriminant = Util.alignZero(b * b - 4 * a * c);
+        if (discriminant <= 0) return null;
+        else {
+            double t1 = Util.alignZero(((-b) + Math.sqrt(discriminant)) / (2 * a));
+            double t2 = Util.alignZero(((-b) - Math.sqrt(discriminant)) / (2 * a));
+            Point p1 = ray.getPoint(t1);
+            Point p2 = ray.getPoint(t2);
+            if (t1 <= 0 && t2 <= 0) return null;
+            else if (t1 > 0 && t2 <= 0) return List.of(p1);
+            else if (t2 > 0 && t1 <= 0) return List.of(p2);
+            return List.of(p1, p2);
+        }
+
     }
+
 
 }
 
