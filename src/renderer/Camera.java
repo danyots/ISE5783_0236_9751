@@ -108,57 +108,119 @@ public class Camera {
         return new Ray(p0, vIJ);
     }
 
-    public void printGrid(int interval, Color color) {
+    /**
+     * Prints a grid pattern on the image with the specified interval and color.
+     * The grid pattern is created by writing pixels with the specified color on every i-th row and j-th column,
+     * where i and j are multiples of the given interval.
+     *
+     * @param interval The interval between grid lines.
+     * @param color    The color of the grid lines.
+     * @throws MissingResourceException if the imageWriter is not initialized.
+     */
+    public void printGrid(int interval, Color color) throws MissingResourceException {
         if (imageWriter == null)
             throw new MissingResourceException("imageWriter is not initialized", "Camera", "imageWriter");
+
         for (int i = 0; i < imageWriter.getNx(); i++) {
             for (int j = 0; j < imageWriter.getNy(); j++) {
                 if (i % interval == 0 || j % interval == 0)
                     imageWriter.writePixel(i, j, color);
             }
         }
+
         writeToImage();
     }
 
-    public void writeToImage(){
+
+    /**
+     * Writes the image to the output file using the initialized imageWriter.
+     * Throws a MissingResourceException if the imageWriter is not initialized.
+     *
+     * @throws MissingResourceException if the imageWriter is not initialized.
+     */
+    public void writeToImage() throws MissingResourceException {
         if (imageWriter == null)
             throw new MissingResourceException("imageWriter is not initialized", "Camera", "imageWriter");
+
         imageWriter.writeToImage();
     }
+
+    /**
+     * Sets the imageWriter for the camera.
+     *
+     * @param imageWriter The imageWriter to be set.
+     * @return The camera object itself for method chaining.
+     */
     public Camera setImageWriter(ImageWriter imageWriter) {
         this.imageWriter = imageWriter;
         return this;
     }
 
+    /**
+     * Sets the rayTracer for the camera.
+     *
+     * @param rayTracer The rayTracer to be set.
+     * @return The camera object itself for method chaining.
+     */
     public Camera setRayTracer(RayTracerBase rayTracer) {
         this.rayTracer = rayTracer;
         return this;
     }
 
-    public void renderImage() {
+    /**
+     * Renders the image by casting rays for each pixel in the imageWriter's dimensions
+     * and writing the resulting color to the image.
+     * Checks if all required fields are initialized before rendering.
+     *
+     * @throws MissingResourceException if any required field is uninitialized.
+     */
+    public void renderImage() throws MissingResourceException {
         List<Object> lst = List.of(p0, vTo, vRight, vUp, width, height, distance, imageWriter, rayTracer);
         for (Object obj : lst) {
             if (obj == null) {
-                throw new MissingResourceException("feild is uninitialized", "Camera", obj.toString());
+                throw new MissingResourceException("field is uninitialized", "Camera", obj.toString());
             }
         }
-        int numY=imageWriter.getNy();
-        int numX=imageWriter.getNx();
+
+        int numY = imageWriter.getNy();
+        int numX = imageWriter.getNx();
+
         for (int i = 0; i < numY; i++) {
             for (int j = 0; j < numX; j++) {
-                imageWriter.writePixel(j,i,castRay(numX,numY,i,j));
+                imageWriter.writePixel(j, i, castRay(numX, numY, i, j));
             }
         }
+
         writeToImage();
     }
-    private Color castRay(int Nx,int Ny,int i,int j){
-        Ray ray = constructRay(Nx,Ny,j,i);
+
+    private Color castRay(int Nx, int Ny, int i, int j) {
+        Ray ray = constructRay(Nx, Ny, j, i);
         return rayTracer.traceRay(ray);
     }
+
+    /**
+     * Rotates the camera to the right by the specified angle.
+     *
+     * @param angle The angle of rotation in degrees.
+     * @return A new Camera object rotated to the right.
+     */
     public Camera rotateRight(double angle) {
         double theta = -Math.toRadians(angle);
-        return new Camera(p0, vTo, rotate(theta)).setVPSize(width, height).setVPDistance(distance).setImageWriter(imageWriter).setRayTracer(rayTracer);
+        return new Camera(p0, vTo, rotate(theta))
+                .setVPSize(width, height)
+                .setVPDistance(distance)
+                .setImageWriter(imageWriter)
+                .setRayTracer(rayTracer);
     }
+
+
+    /**
+     * Rotates the camera to the left by the specified angle.
+     *
+     * @param angle The angle of rotation in degrees.
+     * @return A new Camera object rotated to the left.
+     */
 
     public Camera rotateLeft(double angle) {
         double theta = Math.toRadians(angle);

@@ -22,31 +22,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "scene")
+/**
+ * The Scene class represents a 3D scene with its properties and geometries.
+ */
 public class Scene {
     public String name;
     public Color background;
     public AmbientLight ambientLight = AmbientLight.NONE;
     public Geometries geometries = new Geometries();
 
+    /**
+     * Constructs a new Scene object with the specified name.
+     *
+     * @param name The name of the scene.
+     */
     public Scene(String name) {
         this.name = name;
     }
-
+    /**
+     * Sets the background color of the scene.
+     *
+     * @param background The background color to set.
+     * @return The updated Scene object.
+     */
     public Scene setBackground(Color background) {
         this.background = background;
         return this;
     }
 
+    /**
+     * Sets the ambient light of the scene.
+     *
+     * @param ambientLight The ambient light to set.
+     * @return The updated Scene object.
+     */
     public Scene setAmbientLight(AmbientLight ambientLight) {
         this.ambientLight = ambientLight;
         return this;
     }
+    /**
+     * Sets the geometries of the scene.
+     *
+     * @param geometries The geometries to set.
+     * @return The updated Scene object.
+     */
 
     public Scene setGeometries(Geometries geometries) {
         this.geometries = geometries;
         return this;
     }
-
+    /**
+     * Deserializes a scene from an XML file.
+     *
+     * @param fileName The name of the XML file.
+     * @return The deserialized Scene object.
+     * @throws ParserConfigurationException If a DocumentBuilder cannot be created.
+     * @throws IOException                  If an I/O error occurs.
+     * @throws SAXException                 If any parse errors occur.
+     */
     public Scene deserialize(String fileName) throws ParserConfigurationException, IOException, SAXException {
         String path = System.getProperty("user.dir") + "/" + fileName + ".xml";
         BufferedReader reader1 = new BufferedReader(new FileReader(path));

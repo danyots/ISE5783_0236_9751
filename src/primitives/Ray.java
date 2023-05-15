@@ -64,13 +64,26 @@ public class Ray {
         return "Ray{" + "p0=" + p0 + ", dir=" + dir + "}";
     }
 
-    public Point findClosestPoint(List<Point> pointList){
-        if(pointList==null || pointList.size()==0) return null;
-        if(pointList.size()==1) return pointList.get(0);
-        Point closest=pointList.get(0);
-        for(Point p:pointList){
-            if(p0.distance(closest)>p0.distance(p)) closest=p;
+    /**
+     * Finds the closest point from a list of points to the reference point p0.
+     *
+     * @param pointList The list of points to search for the closest point.
+     * @return The closest point from the list, or null if the list is null or empty.
+     */
+    public Point findClosestPoint(List<Point> pointList) {
+        if (pointList == null || pointList.size() == 0)
+            return null;
+        if (pointList.size() == 1)
+            return pointList.get(0);
+
+        Point closest = pointList.get(0);
+
+        for (Point p : pointList) {
+            if (p0.distance(closest) > p0.distance(p))
+                closest = p;
         }
+
         return closest;
     }
+
 }

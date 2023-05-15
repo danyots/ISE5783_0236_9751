@@ -118,8 +118,7 @@ public class Polygon implements Geometry {
 
             // If the dot product is with different sign than the other , then the ray is going away from the polygon
             if (dotProduct*priv < 0)
-                if(i==0)priv=-1;
-            else{
+                if(i!=0){
                 return null;
                 }
             priv=dotProduct;
