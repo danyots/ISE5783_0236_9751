@@ -5,33 +5,48 @@ import primitives.*;
 import java.util.List;
 import java.util.MissingResourceException;
 
+import static primitives.Util.isZero;
+
 /**
  * The Camera class represents a camera in a 3D space.
  * The camera is defined by its position and orientation.
  */
 public class Camera {
     private final Point p0;
-    private final Vector vUp;
+    private Vector vUp;
     private final Vector vTo;
-    private final Vector vRight;
+    private Vector vRight;
     private double width;
     private double height;
     private double distance;
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
 
-
     /**
      * This class represents a camera in a 3D space.
      * The camera is defined by its position and orientation.
+     * @param p
+     * @param vTo
+     * @param vUp
      */
-    public Camera(Point p, Vector _vTo, Vector _vUp) {
-        if (!Util.isZero(_vTo.dotProduct(_vUp)))
+    public Camera(Point p, Vector vTo, Vector vUp) {
+        if (!isZero(vTo.dotProduct(vUp)))
             throw new IllegalArgumentException("direction vectors must be orthogonal");
         p0 = p;
-        vRight = _vTo.crossProduct(_vUp).normalize();
-        vUp = _vUp.normalize();
-        vTo = _vTo.normalize();
+        vRight = vTo.crossProduct(vUp).normalize();
+        this.vUp = vUp.normalize();
+        this.vTo = vTo.normalize();
+    }
+
+    public Camera(Point location, Point target) {
+        p0 = location;
+        vTo = target.subtract(location).normalize();
+        try {
+            vRight = vTo.crossProduct(Vector.Y).normalize();
+        }catch(IllegalArgumentException ignore) {
+            vRight = Vector.Z;
+        }
+        this.vUp = vRight.crossProduct(vTo);
     }
 
     public Point getP0() {
@@ -99,11 +114,11 @@ public class Camera {
         double rY = Util.alignZero(height / nY);
         double rX = Util.alignZero(height / nX);
         Point pC = p0.add(vTo.scale(distance));
-        double yI = Util.alignZero(-Util.alignZero(i - Util.alignZero(Util.alignZero(nY - 1) / 2)) * rY);
-        double xJ = Util.alignZero(Util.alignZero(j - Util.alignZero(Util.alignZero(nX - 1) / 2)) * rX);
+        double yI = -Util.alignZero(i - Util.alignZero(nY - 1) / 2) * Util.alignZero(rY);
+        double xJ = Util.alignZero(j - Util.alignZero(nX - 1) / 2) * Util.alignZero(rX);
         Point pIJ = pC;
-        if (xJ != 0) pIJ = pIJ.add(vRight.scale(xJ));
-        if (yI != 0) pIJ = pIJ.add(vUp.scale(yI));
+        if (!isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ));
+        if (!isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
         Vector vIJ = pIJ.subtract(p0);
         return new Ray(p0, vIJ);
     }
@@ -246,10 +261,10 @@ public class Camera {
         double cosAngle = Util.alignZero(Math.cos(angle));
         double sinAngle = Util.alignZero(Math.sin(angle));
         Vector vupPrime = null;
-        if (!Util.isZero(sinAngle) && !Util.isZero(cosAngle)) vupPrime = vUp.scale(cosAngle).add(axis.scale(sinAngle));
+        if (!isZero(sinAngle) && !isZero(cosAngle)) vupPrime = vUp.scale(cosAngle).add(axis.scale(sinAngle));
         else {
-            if (Util.isZero(sinAngle)) vupPrime = vUp.scale(cosAngle);
-            if (Util.isZero(cosAngle)) vupPrime = axis.scale(sinAngle);
+            if (isZero(sinAngle)) vupPrime = vUp.scale(cosAngle);
+            if (isZero(cosAngle)) vupPrime = axis.scale(sinAngle);
         }
         return vupPrime.normalize();
     }

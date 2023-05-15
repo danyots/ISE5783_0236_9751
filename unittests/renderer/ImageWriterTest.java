@@ -18,16 +18,13 @@ class ImageWriterTest {
      */
     @Test
     void writePixel() {
+        final primitives.Color color1 = new primitives.Color(Color.MAGENTA);
+        final primitives.Color color2 = new primitives.Color(Color.GREEN);
+
         ImageWriter im = new ImageWriter("testImage", 800, 500);
-        for (int i = 0; i < im.getNy(); i++) {
-            for (int j = 0; j < im.getNx(); j++) {
-                if (i % 50 == 0 || j % 50 == 0) {
-                    im.writePixel(j, i, new primitives.Color(Color.MAGENTA));
-                } else {
-                    im.writePixel(j, i, new primitives.Color(Color.GREEN));
-                }
-            }
-        }
+        for (int i = 0; i < im.getNy(); i++)
+            for (int j = 0; j < im.getNx(); j++)
+                im.writePixel(j, i, i % 50 == 0 || j % 50 == 0 ? color1 : color2);
         im.writeToImage();
     }
 }

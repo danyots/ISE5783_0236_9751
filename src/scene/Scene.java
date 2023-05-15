@@ -2,6 +2,7 @@ package scene;
 
 import geometries.*;
 import lighting.AmbientLight;
+import lighting.LightSource;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -19,17 +20,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-@XmlRootElement(name = "scene")
 /**
  * The Scene class represents a 3D scene with its properties and geometries.
  */
+@XmlRootElement(name = "scene")
 public class Scene {
-    public String name;
-    public Color background;
+    public final String name;
+    public Color background=Color.BLACK;
     public AmbientLight ambientLight = AmbientLight.NONE;
     public Geometries geometries = new Geometries();
+    public List<LightSource> lights=new LinkedList<>();
 
     /**
      * Constructs a new Scene object with the specified name.
@@ -39,6 +42,7 @@ public class Scene {
     public Scene(String name) {
         this.name = name;
     }
+
     /**
      * Sets the background color of the scene.
      *
@@ -60,6 +64,7 @@ public class Scene {
         this.ambientLight = ambientLight;
         return this;
     }
+
     /**
      * Sets the geometries of the scene.
      *
@@ -71,6 +76,12 @@ public class Scene {
         this.geometries = geometries;
         return this;
     }
+
+    public Scene setLights(List<LightSource> lights) {
+        this.lights = lights;
+        return this;
+    }
+
     /**
      * Deserializes a scene from an XML file.
      *
@@ -171,7 +182,7 @@ public class Scene {
                             Point point = new Point(Double.parseDouble(pointCoords[0]), Double.parseDouble(pointCoords[1]), Double.parseDouble(pointCoords[2]));
                             String[] vectorCoords = rayElement.getAttribute("vector").split(" ");
                             Vector vector = new Vector(Double.parseDouble(vectorCoords[0]), Double.parseDouble(vectorCoords[1]), Double.parseDouble(vectorCoords[2]));
-                            fileGeometries.add(new Tube(new Ray(point, vector),radius));
+                            fileGeometries.add(new Tube(new Ray(point, vector), radius));
                             break;
                         case "cylinder":
                             radius = Double.parseDouble(shapeElement.getAttribute("radius"));
@@ -181,7 +192,7 @@ public class Scene {
                             point = new Point(Double.parseDouble(pointCoords[0]), Double.parseDouble(pointCoords[1]), Double.parseDouble(pointCoords[2]));
                             vectorCoords = rayElement.getAttribute("vector").split(" ");
                             vector = new Vector(Double.parseDouble(vectorCoords[0]), Double.parseDouble(vectorCoords[1]), Double.parseDouble(vectorCoords[2]));
-                            fileGeometries.add(new Cylinder(height,new Ray(point, vector),radius));
+                            fileGeometries.add(new Cylinder(height, new Ray(point, vector), radius));
                             break;
 
 

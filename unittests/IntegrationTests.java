@@ -1,12 +1,10 @@
-import geometries.Intersectable;
-import geometries.Plane;
-import geometries.Sphere;
-import geometries.Triangle;
+import geometries.*;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import renderer.Camera;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ class IntegrationTests {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Ray ray = camera.constructRay(3, 3, j, i);
-                List<Point> result = shape.findIntersections(ray);
+                List<GeoPoint> result = shape.findGeoIntersectionsHelper(ray);
                 if (result != null)
                     sum += result.size();
             }

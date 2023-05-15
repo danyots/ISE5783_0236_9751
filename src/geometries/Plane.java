@@ -13,7 +13,7 @@ import static primitives.Util.isZero;
  * The Plane class represents a mathematical plane in three-dimensional space.
  * It is defined by a point and a normal vector or three non-collinear points.
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     final private Point q0;
     final private Vector normal;
 
@@ -71,12 +71,12 @@ public class Plane implements Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         if (q0.equals(ray.getP0())) return null;
         double nv = normal.dotProduct(ray.getDir());
         if (isZero(nv)) return null;
         double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / nv);
-        return t > 0 ? List.of(ray.getPoint(t)) : null;
+        return t > 0 ? List.of(new GeoPoint(this,ray.getPoint(t))) : null;
     }
 
 

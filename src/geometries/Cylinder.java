@@ -70,14 +70,14 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         if (axisRay.getDir().equals(ray.getDir())) {
-            if (axisRay.getP0().equals(ray.getP0())) return List.of(ray.getPoint(height));
+            if (axisRay.getP0().equals(ray.getP0())) return List.of(new GeoPoint(this,ray.getPoint(height)));
             Vector delta = ray.getP0().subtract(axisRay.getP0());
             double t = Util.alignZero(delta.dotProduct(axisRay.getDir()));
             double distance = Util.alignZero(Math.sqrt(delta.lengthSquared() - t * t));
-            if (distance < radius && t < 0) return List.of(ray.getPoint(-t), ray.getPoint(-t + height));
-            else if (distance < radius && t > 0 && t < height) return List.of(ray.getPoint(height - t));
+            if (distance < radius && t < 0) return List.of(new GeoPoint(this,ray.getPoint(-t)), new GeoPoint(this,ray.getPoint(-t + height)));
+            else if (distance < radius && t > 0 && t < height) return List.of(new GeoPoint(this,ray.getPoint(height - t)));
             else if (distance < radius && t >= height) return null;
             else {
                 return null;
@@ -88,29 +88,29 @@ public class Cylinder extends Tube {
             double t = Util.alignZero(delta.dotProduct(axisRay.getDir()));
             double distance = Util.alignZero(Math.sqrt(delta.lengthSquared() - t * t));
             if (distance < radius && t < 0) return null;
-            else if (distance < radius && t > 0 && t < height) return List.of(ray.getPoint(-t));
-            else if (distance < radius && t > height) return List.of(ray.getPoint(t), ray.getPoint(t - height));
+            else if (distance < radius && t > 0 && t < height) return List.of(new GeoPoint(this,ray.getPoint(-t)));
+            else if (distance < radius && t > height) return List.of(new GeoPoint(this,ray.getPoint(t)),new GeoPoint(this, ray.getPoint(t - height)));
             else {
                 return null;
             }
         }
-        List<Point> list1 = super.findIntersections(ray);
+        List<GeoPoint> list1 = super.findGeoIntersectionsHelper(ray);
         if (list1 == null) return null;
         if (list1.size() == 1) {
-            Point p = list1.get(0);
+            Point p = list1.get(0).point;
             boolean in = inCylinder(p);
             if (in) {
                 return list1;
             }
             return null;
         } else if (list1.size() == 2) {
-            Point p1 = list1.get(0);
-            Point p2 = list1.get(1);
+            Point p1 = list1.get(0).point;
+            Point p2 = list1.get(1).point;
             boolean intersect1 = inCylinder(p1);
             boolean intersect2 = inCylinder(p2);
             if (intersect1 && intersect2) return list1;
-            if (!intersect1 && intersect2) return List.of(p2);
-            if (intersect1 && !intersect2) return List.of(p1);
+            if (!intersect1 && intersect2) return List.of(new GeoPoint(this,p2));
+            if (intersect1 && !intersect2) return List.of(new GeoPoint(this,p1));
             if (!intersect1 && !intersect2) return null;
         }
         return null;

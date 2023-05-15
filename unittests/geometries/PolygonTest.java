@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static primitives.Util.isZero;
 
 /**
  * Testing Polygons
@@ -84,7 +85,7 @@ public class PolygonTest {
         // generate the test result
         Vector result = pol.getNormal(new Point(0, 0, 1));
         // ensure |result| = 1
-        assertEquals(1.0, result.length(),  "Polygon's normal is not a unit vector");
+        assertEquals(1.0, result.length(), "Polygon's normal is not a unit vector");
         // ensure the result is orthogonal to all the edges
         for (int i = 0; i < 3; ++i)
             assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
@@ -92,44 +93,44 @@ public class PolygonTest {
     }
 
     /**
-     * Test method for {@link geometries.Polygon#findIntersections(Ray)} (primitives.Point)}.
+     * Test method for {@link geometries.Polygon#findGeoIntersectionsHelper(Ray)} (primitives.Point)}.
      */
     @Test
-    void testFindIntersections() {
+    void testfindGeoIntersectionsHelper() {
         Polygon p = new Polygon(new Point(0, 0, 0), new Point(1, 0, 0), new Point(1, 1, 0), new Point(0, 1, 0));
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: intersection in the polygon
         Ray r1 = new Ray(new Point(0.5, 0.5, -1), new Vector(0, 0, 1));
-        List<Point> points = p.findIntersections(r1);
+        List<GeoPoint> points = p.findGeoIntersectionsHelper(r1);
         assertEquals(1, points.size(), "Wrong number of points");
-        assertEquals(new Point(0.5, 0.5, 0), points.get(0), "Ray intersection isn't working on polygon");
+        assertEquals(new GeoPoint(p,new Point(0.5, 0.5, 0)), points.get(0), "Ray intersection isn't working on polygon");
 
         //TC02: Ray intersect outside polygon against edge
         Ray r2 = new Ray(new Point(-1, -1, 1), new Vector(1, 1, 0));
-        assertNull(p.findIntersections(r2),
-                "findIntersections() wrong result");
+        assertNull(p.findGeoIntersectionsHelper(r2),
+                "findGeoIntersectionsHelper() wrong result");
 
         //TC03: Ray intersect outside polygon against vertex
         Ray r3 = new Ray(new Point(-1, -1, 1), new Vector(2, 3, -1));
-        assertNull(p.findIntersections(r3),
-                "findIntersections() wrong result");
+        assertNull(p.findGeoIntersectionsHelper(r3),
+                "findGeoIntersectionsHelper() wrong result");
 
         // =============== Boundary Values Tests ==================
         //TC11: Ray intersect on edge
         Ray r4 = new Ray(new Point(0.5, 0.5, -1), new Vector(0, -1, 1));
-        assertNull(p.findIntersections(r4),
-                "findIntersections() Ray intersect on edge wrong result");
+        assertNull(p.findGeoIntersectionsHelper(r4),
+                "findGeoIntersectionsHelper() Ray intersect on edge wrong result");
 
         //TC12: Ray intersect in vertex
         Ray r5 = new Ray(new Point(0, 0, 1), new Vector(1, 1, -1));
-        assertNull(p.findIntersections(r5),
-                "findIntersections() Ray intersect in vertex wrong result");
+        assertNull(p.findGeoIntersectionsHelper(r5),
+                "findGeoIntersectionsHelper() Ray intersect in vertex wrong result");
 
         //TC13: Ray intersect on edge's continuation
         Ray r6 = new Ray(new Point(-1, -1, 1), new Vector(-1, -1, -1));
-        assertNull(p.findIntersections(r6),
-                "findIntersections() Ray intersect on edge's continuation wrong result");
+        assertNull(p.findGeoIntersectionsHelper(r6),
+                "findGeoIntersectionsHelper() Ray intersect on edge's continuation wrong result");
 
     }
 }

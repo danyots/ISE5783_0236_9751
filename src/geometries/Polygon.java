@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import static primitives.Util.isZero;
  *
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
@@ -95,7 +96,7 @@ public class Polygon implements Geometry {
      * @return a list of intersection points between the ray and the polygon
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // Get the starting point of the ray
         Point p0 = ray.getP0();
 
@@ -104,28 +105,32 @@ public class Polygon implements Geometry {
         for (Point vertex : vertices) {
             vectors.add(vertex.subtract(p0));
         }
-        double priv=1;
+        double priv = 1;
         // Loop over each vertex of the polygon
         for (int i = 0; i < vertices.size(); i++) {
             // Calculate the normal vector to the plane of the triangle formed by the ray and two edges of the polygon
             Vector n = vectors.get(i).crossProduct(vectors.get((i + 1) % size)).normalize();
 
             // Calculate the dot product between the ray's direction vector and the normal vector
-            double dotProduct = ray.getDir().dotProduct(n);
+            double dotProduct = Util.alignZero(ray.getDir().dotProduct(n));
 
             //on edge or vertex
-            if(dotProduct==0) return null;
+            if (dotProduct == 0) return null;
 
             // If the dot product is with different sign than the other , then the ray is going away from the polygon
-            if (dotProduct*priv < 0)
-                if(i!=0){
-                return null;
+            if (dotProduct * priv < 0)
+                if (i != 0) {
+                    return null;
                 }
-            priv=dotProduct;
+            priv = dotProduct;
         }
 
         // If the ray intersects the polygon's plane, return the intersection points
-        return plane.findIntersections(ray);
+        List<GeoPoint> points = plane.findGeoIntersectionsHelper(ray);
+        for(GeoPoint gp : points){
+            gp.geometry=this;
+        }
+        return points;
     }
 
     @Override

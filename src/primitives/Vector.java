@@ -5,6 +5,19 @@ package primitives;
  */
 public class Vector extends Point {
     /**
+     * Vector for the X axis
+     */
+    public final static Vector X = new Vector(1, 0, 0);
+    /**
+     * Vector for the Y axis
+     */
+    public final static Vector Y = new Vector(0, 1, 0);
+    /**
+     * Vector for the Z axis
+     */
+    public static final Vector Z = new Vector(0, 0, 1);
+
+    /**
      * Constructs a new Vector object using three coordinates.
      *
      * @param d1 the x coordinate of the vector
