@@ -1,13 +1,14 @@
 package renderer;
 
 import geometries.Intersectable;
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
+import lighting.LightSource;
+import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
+
+import static primitives.Util.alignZero;
 
 /**
  * This class represents a basic ray tracer that extends the RayTracerBase class.
@@ -37,7 +38,7 @@ public class RayTracerBasic extends RayTracerBase {
         if (points == null)
             return scene.background;
         GeoPoint closest = ray.findClosestGeoPoint(points);
-        return calcColor(closest);
+        return calcColor(closest,ray);
     }
 
     /**
@@ -46,8 +47,35 @@ public class RayTracerBasic extends RayTracerBase {
      * @param point The point for which to calculate the color.
      * @return The color at the given point.
      */
-    private Color calcColor(GeoPoint point) {
-        return point.geometry.getEmission().add(scene.ambientLight.getIntensity());
+    private Color calcColor(GeoPoint point, Ray ray) {
+        return scene.ambientLight.getIntensity().add(calcLocalEffects(point, ray));
 
     }
+    private Color calcLocalEffects(GeoPoint gp, Ray ray) {
+        Color color = gp.geometry.getEmission();
+        Vector v = ray.getDir ();
+        Vector n = gp.geometry.getNormal(gp.point);
+        double nv = alignZero(n.dotProduct(v));
+        if (nv == 0) return color;
+        Material material = gp.geometry.getMaterial();
+        for (LightSource lightSource : scene.lights) {
+            Vector l = lightSource.getL(gp.point);
+            double nl = alignZero(n.dotProduct(l));
+            if (nl * nv > 0) { // sign(nl) == sing(nv)
+                Color iL = lightSource.getIntensity(gp.point);
+                color = color.add(iL.scale(calcDiffusive(material, nl)).add(iL.scale(calcSpecular(material, n, l, nl, v))));
+            }
+        }
+        return color;
+    }
+    private Double3 calcDiffusive(Material mat, double nl){
+        return mat.kD.scale(Math.abs(nl));
+    }
+    private Double3 calcSpecular(Material mat, Vector n, Vector l, double nl,Vector v){
+        Vector r = l.subtract(n.scale(2*nl));
+        double max = -1*(r.dotProduct(v));
+        if(max>0)return mat.kS.scale(Math.pow(max,mat.nShininess));
+        return new Double3(0,0,0);
+    }
+
 }
