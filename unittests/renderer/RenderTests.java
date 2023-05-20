@@ -10,6 +10,7 @@ import primitives.Double3;
 import primitives.Point;
 import primitives.Vector;
 import scene.Scene;
+import scene.XmlFile;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -93,7 +94,8 @@ public class RenderTests {
     public void basicRenderXml() throws ParserConfigurationException, SAXException, IOException {
 
         Scene scene = new Scene("XML Test scene");
-        Scene xml = scene.deserialize("basicRenderTestTwoColors");
+        XmlFile xmlFile=new XmlFile();
+        Scene xml = xmlFile.deserialize("basicRenderTestTwoColors");
         // enter XML file name and parse from XML file into scene object
         // using the code you added in appropriate packages
         // ...
@@ -105,7 +107,7 @@ public class RenderTests {
                 .setVPSize(500, 500).setImageWriter(new ImageWriter("xml render test", 1000, 1000))
                 .setRayTracer(new RayTracerBasic(xml));
         camera.renderImage();
-        Camera ca = camera.rotateRight(65);
+        Camera ca = camera.rotateRight(30);
         ca.renderImage();
         ca.printGrid(100, new Color(YELLOW));
         ca.writeToImage();
