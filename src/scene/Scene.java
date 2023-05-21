@@ -67,6 +67,12 @@ public class Scene {
         return this;
     }
 
+    /**
+
+     Sets the list of light sources in the scene.
+     @param lights The list of light sources
+     @return The scene object itself for method chaining
+     */
     public Scene setLights(List<LightSource> lights) {
         this.lights = lights;
         return this;

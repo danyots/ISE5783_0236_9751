@@ -22,73 +22,108 @@ public class Camera {
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
 
-    /**
-     * This class represents a camera in a 3D space.
-     * The camera is defined by its position and orientation.
-     * @param p
-     * @param vTo
-     * @param vUp
-     */
-    public Camera(Point p, Vector vTo, Vector vUp) {
-        if (!isZero(vTo.dotProduct(vUp)))
-            throw new IllegalArgumentException("direction vectors must be orthogonal");
-        p0 = p;
-        vRight = vTo.crossProduct(vUp).normalize();
-        this.vUp = vUp.normalize();
-        this.vTo = vTo.normalize();
-    }
+        /**
 
-    public Camera(Point location, Point target) {
-        p0 = location;
-        vTo = target.subtract(location).normalize();
-        try {
-            vRight = vTo.crossProduct(Vector.Y).normalize();
-        }catch(IllegalArgumentException ignore) {
-            vRight = Vector.Z;
+         Constructs a camera with the specified position, target, and up vectors.
+         The direction vectors must be orthogonal.
+         @param p The position of the camera
+         @param vTo The direction vector pointing towards the target
+         @param vUp The direction vector pointing upwards
+         @throws IllegalArgumentException if the direction vectors are not orthogonal
+         */
+        public Camera(Point p, Vector vTo, Vector vUp) {
+            if (!isZero(vTo.dotProduct(vUp)))
+                throw new IllegalArgumentException("Direction vectors must be orthogonal");
+            p0 = p;
+            vRight = vTo.crossProduct(vUp).normalize();
+            this.vUp = vUp.normalize();
+            this.vTo = vTo.normalize();
         }
-        this.vUp = vRight.crossProduct(vTo);
-    }
+        /**
 
-    public Point getP0() {
-        return p0;
-    }
+         Constructs a camera with the specified position and target points.
+         The up vector is determined automatically.
+         @param location The position of the camera
+         @param target The target point the camera is looking at
+         */
+        public Camera(Point location, Point target) {
+            p0 = location;
+            vTo = target.subtract(location).normalize();
+            try {
+                vRight = vTo.crossProduct(Vector.Y).normalize();
+            } catch (IllegalArgumentException ignore) {
+                vRight = Vector.Z;
+            }
+            this.vUp = vRight.crossProduct(vTo);
+        }
+        /**
 
-    public Vector getvUp() {
-        return vUp;
-    }
+         Returns the position of the camera.
+         @return The position of the camera
+         */
+        public Point getP0() {
+            return p0;
+        }
+        /**
 
-    public Vector getvTo() {
-        return vTo;
-    }
+         Returns the up vector of the camera.
+         @return The up vector of the camera
+         */
+        public Vector getvUp() {
+            return vUp;
+        }
+        /**
 
-    public Vector getvRight() {
-        return vRight;
-    }
+         Returns the direction vector of the camera.
+         @return The direction vector of the camera
+         */
+        public Vector getvTo() {
+            return vTo;
+        }
+        /**
 
-    public double getWidth() {
-        return width;
-    }
+         Returns the right vector of the camera.
+         @return The right vector of the camera
+         */
+        public Vector getvRight() {
+            return vRight;
+        }
+        /**
 
-    public double getHeight() {
-        return height;
-    }
+         Returns the width of the viewport.
+         @return The width of the viewport
+         */
+        public double getWidth() {
+            return width;
+        }
+        /**
 
-    public double getDistance() {
-        return distance;
-    }
+         Returns the height of the viewport.
+         @return The height of the viewport
+         */
+        public double getHeight() {
+            return height;
+        }
+        /**
 
-    /**
-     * Sets the viewport size of the camera.
-     *
-     * @param width  The width of the viewport
-     * @param height The height of the viewport
-     * @return This camera object with the updated viewport size
-     */
-    public Camera setVPSize(double width, double height) {
-        this.width = width;
-        this.height = height;
-        return this;
-    }
+         Returns the distance between the camera and the viewport.
+         @return The distance between the camera and the viewport
+         */
+        public double getDistance() {
+            return distance;
+        }
+        /**
+
+         Sets the size of the viewport.
+         @param width The width of the viewport
+         @param height The height of the viewport
+         @return This camera object with the updated viewport size
+         */
+        public Camera setVPSize(double width, double height) {
+            this.width = width;
+            this.height = height;
+            return this;
+        }
 
     /**
      * Sets the distance between the camera and the viewport.
@@ -136,8 +171,11 @@ public class Camera {
         if (imageWriter == null)
             throw new MissingResourceException("imageWriter is not initialized", "Camera", "imageWriter");
 
-        for (int i = 0; i < imageWriter.getNx(); i++) {
-            for (int j = 0; j < imageWriter.getNy(); j++) {
+        int numY = imageWriter.getNy();
+        int numX = imageWriter.getNx();
+
+        for (int i = 0; i < numX; i++) {
+            for (int j = 0; j < numY; j++) {
                 if (i % interval == 0 || j % interval == 0)
                     imageWriter.writePixel(i, j, color);
             }
@@ -209,6 +247,15 @@ public class Camera {
         writeToImage();
     }
 
+    /**
+
+     Casts a ray from the camera's position and orientation through a specified pixel in the viewport.
+     @param Nx The number of pixels in the x-axis of the viewport
+     @param Ny The number of pixels in the y-axis of the viewport
+     @param i The y-coordinate of the pixel in the viewport
+     @param j The x-coordinate of the pixel in the viewport
+     @return The color of the ray after tracing it in the scene
+     */
     private Color castRay(int Nx, int Ny, int i, int j) {
         Ray ray = constructRay(Nx, Ny, j, i);
         return rayTracer.traceRay(ray);

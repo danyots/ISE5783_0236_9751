@@ -62,6 +62,12 @@ public class Cylinder extends Tube {
         return super.getNormal(point);
     }
 
+    /**
+
+     Checks if a given point is inside the cylinder.
+     @param p The point to check
+     @return {@code true} if the point is inside the cylinder, {@code false} otherwise
+     */
     public boolean inCylinder(Point p) {
         Vector v = p.subtract(axisRay.getP0());
         double delta = Util.alignZero(p.subtract(axisRay.getP0()).length());
