@@ -55,8 +55,11 @@ public class RenderTests {
     }
 
 // For stage 6 - please disregard in stage 5
-    /** Produce a scene with basic 3D model - including individual lights of the
-     * bodies and render it into a png image with a grid */
+
+    /**
+     * Produce a scene with basic 3D model - including individual lights of the
+     * bodies and render it into a png image with a grid
+     */
     @Test
     public void basicRenderMultiColorTest() {
         Scene scene = new Scene("Test scene")//
@@ -74,7 +77,7 @@ public class RenderTests {
                 new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))
                         .setEmission(new Color(BLUE)));
 
-        Camera camera = new Camera(new Point(0,0,0), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+        Camera camera = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
                 .setVPDistance(100) //
                 .setVPSize(500, 500) //
                 .setImageWriter(new ImageWriter("color render test", 1000, 1000))
@@ -94,7 +97,7 @@ public class RenderTests {
     public void basicRenderXml() throws ParserConfigurationException, SAXException, IOException {
 
         Scene scene = new Scene("XML Test scene");
-        XmlFile xmlFile=new XmlFile();
+        XmlFile xmlFile = new XmlFile();
         Scene xml = xmlFile.deserialize("basicRenderTestTwoColors");
         // enter XML file name and parse from XML file into scene object
         // using the code you added in appropriate packages

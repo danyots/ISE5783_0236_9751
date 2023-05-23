@@ -144,10 +144,10 @@ public class XmlFile {
     }
 
     /**
-
-     Reads the coordinates of a point from an array of point components.
-     @param pointComponent The array of point components
-     @return A Point object with the specified coordinates
+     * Reads the coordinates of a point from an array of point components.
+     *
+     * @param pointComponent The array of point components
+     * @return A Point object with the specified coordinates
      */
     private Point readPoint(String[] pointComponent) {
         return new Point(Double.parseDouble(pointComponent[0]),

@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import java.util.List;
@@ -71,12 +72,13 @@ public class Plane extends Geometry {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint>
+    findGeoIntersectionsHelper(Ray ray, double maxDistance){
         if (q0.equals(ray.getP0())) return null;
         double nv = normal.dotProduct(ray.getDir());
         if (isZero(nv)) return null;
         double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / nv);
-        return t > 0 ? List.of(new GeoPoint(this,ray.getPoint(t))) : null;
+        return t > 0 && Util.alignZero(t-maxDistance)<=0 ? List.of(new GeoPoint(this, ray.getPoint(t))) : null;
     }
 
 

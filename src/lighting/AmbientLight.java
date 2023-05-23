@@ -7,7 +7,7 @@ import primitives.Util;
 /**
  * Represents ambient light in a scene.
  */
-public class AmbientLight extends  Light{
+public class AmbientLight extends Light {
     /**
      * A constant representing no ambient light, with an intensity of Color.BLACK and scaling factor of Double3.ZERO.
      */

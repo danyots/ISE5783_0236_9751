@@ -61,7 +61,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
         Vector v = ray.getDir();
         Vector vTube = axisRay.getDir();
         Point p0 = ray.getP0();
@@ -76,7 +76,7 @@ public class Tube extends RadialGeometry {
         double a = Util.alignZero(firstV.lengthSquared());
         if (p0.equals(q0)) {
             Point p = ray.getPoint(Util.alignZero(radius / Util.alignZero(v.subtract(vTube.scale(v.dotProduct(vTube))).length())));
-            return List.of(new GeoPoint(this,p));
+            return (p.distance(p0) <= maxDistance) ? List.of(new GeoPoint(this, p)) : null;
         }
         Vector deltaP = p0.subtract(q0);
         Vector secondV;
@@ -103,12 +103,14 @@ public class Tube extends RadialGeometry {
         else {
             double t1 = Util.alignZero(((-b) + Math.sqrt(discriminant)) / (2 * a));
             double t2 = Util.alignZero(((-b) - Math.sqrt(discriminant)) / (2 * a));
+            double t1D = Util.alignZero(t1 - maxDistance);
+            double t2D = Util.alignZero(t2 - maxDistance);
             Point p1 = ray.getPoint(t1);
             Point p2 = ray.getPoint(t2);
-            if (t1 <= 0 && t2 <= 0) return null;
-            else if (t1 > 0 && t2 <= 0) return List.of(new GeoPoint(this,p1));
-            else if (t2 > 0 && t1 <= 0) return List.of(new GeoPoint(this,p2));
-            return List.of(new GeoPoint(this,p1), new GeoPoint(this,p2));
+            if ((t1 <= 0 || t1D>0)&&(t2D>0 ||t2 <= 0)) return null;
+            else if (t1 > 0 &&t1D<=0 && (t2 <= 0||t2D>0)) return List.of(new GeoPoint(this, p1));
+            else if (t2 > 0 &&t2D<=0&& (t1 <= 0 || t1D>0)) return List.of(new GeoPoint(this, p2));
+            return List.of(new GeoPoint(this, p1), new GeoPoint(this, p2));
         }
 
     }

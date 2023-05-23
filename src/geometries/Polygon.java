@@ -96,7 +96,11 @@ public class Polygon extends Geometry {
      * @return a list of intersection points between the ray and the polygon
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+        // If the ray intersects the polygon's plane, return the intersection points
+        List<GeoPoint> points = plane.findGeoIntersectionsHelper(ray,maxDistance);
+        if (points == null) return null;
+
         // Get the starting point of the ray
         Point p0 = ray.getP0();
 
@@ -119,17 +123,13 @@ public class Polygon extends Geometry {
 
             // If the dot product is with different sign than the other , then the ray is going away from the polygon
             if (dotProduct * priv < 0)
-                if (i != 0) {
+                if (i != 0)
                     return null;
-                }
+
             priv = dotProduct;
         }
 
-        // If the ray intersects the polygon's plane, return the intersection points
-        List<GeoPoint> points = plane.findGeoIntersectionsHelper(ray);
-        for(GeoPoint gp : points){
-            gp.geometry=this;
-        }
+        points.get(0).geometry = this;
         return points;
     }
 

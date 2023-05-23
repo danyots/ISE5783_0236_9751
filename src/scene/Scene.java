@@ -1,14 +1,11 @@
 package scene;
 
-import geometries.*;
+import geometries.Geometries;
 import lighting.AmbientLight;
 import lighting.LightSource;
-import org.xml.sax.SAXException;
 import primitives.Color;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,10 +15,10 @@ import java.util.List;
 @XmlRootElement(name = "scene")
 public class Scene {
     public final String name;
-    public Color background=Color.BLACK;
+    public Color background = Color.BLACK;
     public AmbientLight ambientLight = AmbientLight.NONE;
     public Geometries geometries = new Geometries();
-    public List<LightSource> lights=new LinkedList<>();
+    public List<LightSource> lights = new LinkedList<>();
     public XmlFile xmlFile;
 
     /**
@@ -68,10 +65,10 @@ public class Scene {
     }
 
     /**
-
-     Sets the list of light sources in the scene.
-     @param lights The list of light sources
-     @return The scene object itself for method chaining
+     * Sets the list of light sources in the scene.
+     *
+     * @param lights The list of light sources
+     * @return The scene object itself for method chaining
      */
     public Scene setLights(List<LightSource> lights) {
         this.lights = lights;

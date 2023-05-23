@@ -2,7 +2,6 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
-import primitives.Vector;
 
 import java.util.List;
 
@@ -21,65 +20,63 @@ public abstract class Intersectable {
         var geoList = findGeoIntersections(ray);
         return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
     }
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
 
     /**
+     * Helper method for finding the geometric intersections of a ray with the geometry.
+     * Subclasses must implement this method.
+     *
+     * @param ray The ray to intersect with the geometry
+     * @return A list of GeoPoint objects representing the intersections
+     */
+    protected abstract List<GeoPoint>
+    findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
-     Representation of a geometric intersection point.
+    /**
+     * Representation of a geometric intersection point.
      */
     public static class GeoPoint {
         public Geometry geometry;
         public Point point;
 
         /**
-
-         Constructs a GeoPoint object with the specified geometry and point.
-         @param geometry The geometry object
-         @param point The intersection point
+         * Constructs a GeoPoint object with the specified geometry and point.
+         *
+         * @param geometry The geometry object
+         * @param point    The intersection point
          */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
             this.point = point;
         }
-        /**
 
-         Checks if this GeoPoint is equal to another object.
-         @param obj The object to compare
-         @return true if the objects are equal, false otherwise
+        /**
+         * Checks if this GeoPoint is equal to another object.
+         *
+         * @param obj The object to compare
+         * @return true if the objects are equal, false otherwise
          */
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
-            if (obj instanceof GeoPoint other) {
-                return this.geometry.equals(other.geometry) && this.point.equals(other.point);
-            }
-            return false;
+            return obj instanceof GeoPoint other && this.geometry == other.geometry && this.point.equals(other.point);
         }
-        /**
 
-         Returns a string representation of the GeoPoint object.
-         @return The string representation of the GeoPoint object
+        /**
+         * Returns a string representation of the GeoPoint object.
+         *
+         * @return The string representation of the GeoPoint object
          */
         @Override
         public String toString() {
             return "GeoPoint{" + "geometry=" + geometry + ", point=" + point + "}";
         }
     }
-    /**
-
-     Finds the geometric intersections of a ray with the geometry.
-     @param ray The ray to intersect with the geometry
-     @return A list of GeoPoint objects representing the intersections
-     */
-    public final List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
-    }
-    /**
-
-     Helper method for finding the geometric intersections of a ray with the geometry.
-     Subclasses must implement this method.
-     @param ray The ray to intersect with the geometry
-     @return A list of GeoPoint objects representing the intersections
-     */
-    public abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 
 }

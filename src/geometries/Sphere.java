@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import java.util.List;
@@ -47,23 +48,35 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        if (center.equals(ray.getP0())) return List.of(new GeoPoint(this,ray.getPoint(radius)));
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+        if (center.equals(ray.getP0())) return List.of(new GeoPoint(this, ray.getPoint(radius)));
 
         Vector u = center.subtract(ray.getP0());
         double tm = alignZero(u.dotProduct(ray.getDir()));
         if (tm < 0) return null;
 
         double d2 = alignZero(u.dotProduct(u) - tm * tm);
-        if (alignZero(d2 - radius2) >= 0) return null;
-        double th = alignZero(Math.sqrt(radius2 - d2));
+        double th2 = radius2 - d2;
+        if (alignZero(th2) <= 0) return null;
+        double th = alignZero(Math.sqrt(th2));
 
         double t2 = alignZero(tm + th);
         if (t2 <= 0) return null;
-
         double t1 = alignZero(tm - th);
-        return t1 <= 0 ? //
-                List.of(new GeoPoint(this,ray.getPoint(t2))) : //
-                List.of(new GeoPoint(this,ray.getPoint(t1)), new GeoPoint(this,ray.getPoint(t2)));
+
+        double t1D = Util.alignZero(t1 - maxDistance);
+        double t2D = Util.alignZero(t2 - maxDistance);
+        if (t1D > 0 && t2D > 0) return null;
+
+        if (t2D <= 0) {
+            return t1 <= 0 || t1D >0? //
+                    List.of(new GeoPoint(this, ray.getPoint(t2))) : //
+                    List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
+        }
+        else{
+            return t1 <= 0 || t1D >0? //
+                    null : //
+                    List.of(new GeoPoint(this, ray.getPoint(t1)));
+        }
     }
 }

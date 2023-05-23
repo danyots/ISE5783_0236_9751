@@ -7,10 +7,10 @@ import primitives.Vector;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static primitives.Util.isZero;
 
 /**
  * Testing Polygons
@@ -84,7 +84,7 @@ public class PolygonTest {
         // generate the test result
         Vector result = pol.getNormal(new Point(0, 0, 1));
         // ensure |result| = 1
-        assertEquals(1.0, result.length(),  "Polygon's normal is not a unit vector");
+        assertEquals(1.0, result.length(), "Polygon's normal is not a unit vector");
         // ensure the result is orthogonal to all the edges
         for (int i = 0; i < 3; ++i)
             assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),

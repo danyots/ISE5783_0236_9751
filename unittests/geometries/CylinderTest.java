@@ -7,9 +7,9 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.gen5.api.Assertions.assertEquals;
 
 /**
  * Unit tests for geometries.Cylinder class
@@ -37,7 +37,7 @@ class CylinderTest {
         // generate the test result
         Vector result = cy.getNormal(side);
         // ensure |result| = 1
-        assertEquals(1.0, result.length(),  "Tube's normal is not a unit vector");
+        assertEquals(1.0, result.length(), "Tube's normal is not a unit vector");
         //is the excepted normal
         assertEquals(new Vector(0, 0, 1), result, "the normal is incorrect");
 
@@ -49,7 +49,7 @@ class CylinderTest {
         // generate the test result
         Vector result2 = cy.getNormal(base1);
         // ensure |result| = 1
-        assertEquals(1.0, result2.length(),  "Tube's normal is not a unit vector");
+        assertEquals(1.0, result2.length(), "Tube's normal is not a unit vector");
         //is the excepted normal
         assertEquals(new Vector(1, 0, 0), result2, "the normal is incorrect");
 
@@ -72,7 +72,7 @@ class CylinderTest {
         // generate the test result
         Vector result4 = cy.getNormal(baseCenter1);
         // ensure |result| = 1
-        assertEquals(1.0, result4.length(),  "Tube's normal is not a unit vector");
+        assertEquals(1.0, result4.length(), "Tube's normal is not a unit vector");
         //is the excepted normal
         assertEquals(new Vector(1, 0, 0), result4, "the normal is incorrect");
 
@@ -82,7 +82,7 @@ class CylinderTest {
         // generate the test result
         Vector result5 = cy.getNormal(baseCenter2);
         // ensure |result| = 1
-        assertEquals(1.0, result5.length(),  "Tube's normal is not a unit vector");
+        assertEquals(1.0, result5.length(), "Tube's normal is not a unit vector");
         //is the excepted normal
         assertEquals(new Vector(1, 0, 0), result5, "the normal is incorrect");
     }

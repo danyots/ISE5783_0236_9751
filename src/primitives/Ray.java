@@ -77,7 +77,7 @@ public class Ray {
                 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
 
-    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPointList){
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPointList) {
         if (geoPointList == null || geoPointList.size() == 0)
             return null;
 
@@ -92,7 +92,6 @@ public class Ray {
         }
         return closest;
     }
-
 
 
 }

@@ -13,8 +13,8 @@ import static primitives.Util.isZero;
  */
 public class Camera {
     private final Point p0;
-    private Vector vUp;
     private final Vector vTo;
+    private Vector vUp;
     private Vector vRight;
     private double width;
     private double height;
@@ -22,108 +22,117 @@ public class Camera {
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
 
-        /**
+    /**
+     * Constructs a camera with the specified position, target, and up vectors.
+     * The direction vectors must be orthogonal.
+     *
+     * @param p   The position of the camera
+     * @param vTo The direction vector pointing towards the target
+     * @param vUp The direction vector pointing upwards
+     * @throws IllegalArgumentException if the direction vectors are not orthogonal
+     */
+    public Camera(Point p, Vector vTo, Vector vUp) {
+        if (!isZero(vTo.dotProduct(vUp)))
+            throw new IllegalArgumentException("Direction vectors must be orthogonal");
+        p0 = p;
+        vRight = vTo.crossProduct(vUp).normalize();
+        this.vUp = vUp.normalize();
+        this.vTo = vTo.normalize();
+    }
 
-         Constructs a camera with the specified position, target, and up vectors.
-         The direction vectors must be orthogonal.
-         @param p The position of the camera
-         @param vTo The direction vector pointing towards the target
-         @param vUp The direction vector pointing upwards
-         @throws IllegalArgumentException if the direction vectors are not orthogonal
-         */
-        public Camera(Point p, Vector vTo, Vector vUp) {
-            if (!isZero(vTo.dotProduct(vUp)))
-                throw new IllegalArgumentException("Direction vectors must be orthogonal");
-            p0 = p;
-            vRight = vTo.crossProduct(vUp).normalize();
-            this.vUp = vUp.normalize();
-            this.vTo = vTo.normalize();
+    /**
+     * Constructs a camera with the specified position and target points.
+     * The up vector is determined automatically.
+     *
+     * @param location The position of the camera
+     * @param target   The target point the camera is looking at
+     */
+    public Camera(Point location, Point target) {
+        p0 = location;
+        vTo = target.subtract(location).normalize();
+        try {
+            vRight = vTo.crossProduct(Vector.Y).normalize();
+        } catch (IllegalArgumentException ignore) {
+            vRight = Vector.Z;
         }
-        /**
+        this.vUp = vRight.crossProduct(vTo);
+    }
 
-         Constructs a camera with the specified position and target points.
-         The up vector is determined automatically.
-         @param location The position of the camera
-         @param target The target point the camera is looking at
-         */
-        public Camera(Point location, Point target) {
-            p0 = location;
-            vTo = target.subtract(location).normalize();
-            try {
-                vRight = vTo.crossProduct(Vector.Y).normalize();
-            } catch (IllegalArgumentException ignore) {
-                vRight = Vector.Z;
-            }
-            this.vUp = vRight.crossProduct(vTo);
-        }
-        /**
+    /**
+     * Returns the position of the camera.
+     *
+     * @return The position of the camera
+     */
+    public Point getP0() {
+        return p0;
+    }
 
-         Returns the position of the camera.
-         @return The position of the camera
-         */
-        public Point getP0() {
-            return p0;
-        }
-        /**
+    /**
+     * Returns the up vector of the camera.
+     *
+     * @return The up vector of the camera
+     */
+    public Vector getvUp() {
+        return vUp;
+    }
 
-         Returns the up vector of the camera.
-         @return The up vector of the camera
-         */
-        public Vector getvUp() {
-            return vUp;
-        }
-        /**
+    /**
+     * Returns the direction vector of the camera.
+     *
+     * @return The direction vector of the camera
+     */
+    public Vector getvTo() {
+        return vTo;
+    }
 
-         Returns the direction vector of the camera.
-         @return The direction vector of the camera
-         */
-        public Vector getvTo() {
-            return vTo;
-        }
-        /**
+    /**
+     * Returns the right vector of the camera.
+     *
+     * @return The right vector of the camera
+     */
+    public Vector getvRight() {
+        return vRight;
+    }
 
-         Returns the right vector of the camera.
-         @return The right vector of the camera
-         */
-        public Vector getvRight() {
-            return vRight;
-        }
-        /**
+    /**
+     * Returns the width of the viewport.
+     *
+     * @return The width of the viewport
+     */
+    public double getWidth() {
+        return width;
+    }
 
-         Returns the width of the viewport.
-         @return The width of the viewport
-         */
-        public double getWidth() {
-            return width;
-        }
-        /**
+    /**
+     * Returns the height of the viewport.
+     *
+     * @return The height of the viewport
+     */
+    public double getHeight() {
+        return height;
+    }
 
-         Returns the height of the viewport.
-         @return The height of the viewport
-         */
-        public double getHeight() {
-            return height;
-        }
-        /**
+    /**
+     * Returns the distance between the camera and the viewport.
+     *
+     * @return The distance between the camera and the viewport
+     */
+    public double getDistance() {
+        return distance;
+    }
 
-         Returns the distance between the camera and the viewport.
-         @return The distance between the camera and the viewport
-         */
-        public double getDistance() {
-            return distance;
-        }
-        /**
-
-         Sets the size of the viewport.
-         @param width The width of the viewport
-         @param height The height of the viewport
-         @return This camera object with the updated viewport size
-         */
-        public Camera setVPSize(double width, double height) {
-            this.width = width;
-            this.height = height;
-            return this;
-        }
+    /**
+     * Sets the size of the viewport.
+     *
+     * @param width  The width of the viewport
+     * @param height The height of the viewport
+     * @return This camera object with the updated viewport size
+     */
+    public Camera setVPSize(double width, double height) {
+        this.width = width;
+        this.height = height;
+        return this;
+    }
 
     /**
      * Sets the distance between the camera and the viewport.
@@ -248,13 +257,13 @@ public class Camera {
     }
 
     /**
-
-     Casts a ray from the camera's position and orientation through a specified pixel in the viewport.
-     @param Nx The number of pixels in the x-axis of the viewport
-     @param Ny The number of pixels in the y-axis of the viewport
-     @param i The y-coordinate of the pixel in the viewport
-     @param j The x-coordinate of the pixel in the viewport
-     @return The color of the ray after tracing it in the scene
+     * Casts a ray from the camera's position and orientation through a specified pixel in the viewport.
+     *
+     * @param Nx The number of pixels in the x-axis of the viewport
+     * @param Ny The number of pixels in the y-axis of the viewport
+     * @param i  The y-coordinate of the pixel in the viewport
+     * @param j  The x-coordinate of the pixel in the viewport
+     * @return The color of the ray after tracing it in the scene
      */
     private Color castRay(int Nx, int Ny, int i, int j) {
         Ray ray = constructRay(Nx, Ny, j, i);
