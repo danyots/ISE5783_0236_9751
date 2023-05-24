@@ -14,6 +14,7 @@ public class Ray {
     final private Point p0;
 
     final private Vector dir;
+    private static final double DELTA = 0.1;
 
     /**
      * Constructs a new Ray object with the given starting point and direction.
@@ -24,6 +25,17 @@ public class Ray {
     public Ray(Point p, Vector v) {
         p0 = p;
         dir = v.normalize();
+    }
+    public Ray(Point p, Vector v,Vector n) {
+        Vector epsVector = n.scale(n.dotProduct(v) > 0 ? DELTA : -DELTA);
+        if(isZero(v.dotProduct(n))) {
+            p0 = p;
+            dir = v.normalize();
+        }
+        else {
+            p0 = p.add(epsVector);
+            dir = v.normalize();
+        }
     }
 
     /**
