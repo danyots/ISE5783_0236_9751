@@ -4,10 +4,11 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
+import geometries.Intersectable.*;
 import java.util.List;
 
 import static org.junit.gen5.api.Assertions.assertNull;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -126,6 +127,26 @@ class PlaneTest {
         assertNull(plane.findIntersections(new Ray(new Point(1, 1, 0),
                         new Vector(2, 5, 4))),
                 "Ray is neither orthogonal nor parallel to the plane and begins in the same point which appears as reference point in the plane");
+
+
+    }
+    @Test
+    void testFindGeoIntersections(){
+        Plane plane = new Plane(new Point(1, 1, 0), new Point(2, 5, 0), new Point(1, 6, 0));
+
+        // ============ Equivalence Partitions Tests ==============
+        //**** Group: The Ray is neither orthogonal nor parallel to the plane
+        // TC01: Ray intersects the plane
+        Point p1 = new Point(2, 1, 0);
+        List<GeoPoint> result = plane.findGeoIntersections(new Ray(new Point(0, 0, -1),
+                new Vector(2, 1, 1)),3.5);
+        assertEquals(1, result.size(), "Wrong number of points");
+        assertEquals(p1, result.get(0).point, "Ray crosses plane");
+        // TC01: Ray intersects the plane
+        p1 = new Point(2, 1, 0);
+        result = plane.findGeoIntersections(new Ray(new Point(0, 0, -1),
+                new Vector(2, 1, 1)),0.5);
+        assertNull(result, "Wrong number of points");
 
 
     }

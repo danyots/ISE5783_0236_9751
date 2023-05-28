@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import geometries.Intersectable.*;
 
 import java.util.List;
 
@@ -77,6 +78,16 @@ class TriangleTest {
         assertNull(tri.findIntersections(new Ray(new Point(3, 7, 3),
                         new Vector(-1, -1, -1))),
                 "intersection with the continuation of a side");
+
+    }
+    @Test
+    void testFindGeoIntersections(){
+        Triangle tri = new Triangle(new Point(0, 2, 0), new Point(0, -1, 0), new Point(5, -1, 0));
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: intersection inside the triangle (1 points)
+        List<GeoPoint> result = tri.findGeoIntersections(new Ray(new Point(4, 3, 3),
+                new Vector(-1, -1, -1)),1);
+        assertNull( result, "Wrong number of points");
 
     }
 }

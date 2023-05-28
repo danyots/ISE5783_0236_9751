@@ -6,6 +6,7 @@ import primitives.Ray;
 import primitives.Vector;
 
 import java.util.List;
+import geometries.Intersectable.*;
 
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertNull;
@@ -218,6 +219,22 @@ class CylinderTest {
         //TC29 ray is on the surface starts before cylinder
         result = cylinder.findIntersections(new Ray(new Point(3, 0, -1), new Vector(0, 0, 1)));
         assertNull(result, "Wrong number of points");
+
+
+    }
+    @Test
+    void testFindGeoIntersections(){
+        Ray ray = new Ray(new Point(2, 0, 0), new Vector(0, 0, 1));
+        Cylinder cylinder = new Cylinder(2, ray, 1);
+        // ============ Equivalence Partitions Tests ==============
+        //TC02 ray starts inside and parallel to the cylinder's ray
+        List<GeoPoint> result = cylinder.findGeoIntersections(new Ray(new Point(2.5, 0, 1), new Vector(0, 0, 1)),0.5);
+        assertNull(result, "Bad intersection point");
+
+        //TC03 ray starts outside and parallel to the cylinder's ray and crosses the cylinder
+        result = cylinder.findGeoIntersections(new Ray(new Point(2.5, 0, -1), new Vector(0, 0, 1)),2);
+        assertEquals(1, result.size(), "Wrong number of points");
+        assertEquals(new Point(2.5, 0, 0), result.get(0).point, "Bad intersection point");
 
 
     }

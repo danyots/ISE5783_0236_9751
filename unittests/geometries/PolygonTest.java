@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
@@ -131,5 +132,18 @@ public class PolygonTest {
         assertNull(p.findIntersections(r6),
                 "findIntersections() Ray intersect on edge's continuation wrong result");
 
+    }
+    @Test
+    void testFindGeoIntersections(){
+        Polygon p = new Polygon(new Point(0, 0, 0), new Point(1, 0, 0), new Point(1, 1, 0), new Point(0, 1, 0));
+        // TC01: intersection in the polygon
+        Ray r1 = new Ray(new Point(0.5, 0.5, -1), new Vector(0, 0, 1));
+        List<GeoPoint> points = p.findGeoIntersections(r1,0.5);
+        assertEquals(1, points.size(), "Wrong number of points");
+        assertEquals(new Point(0.5, 0.5, 0), points.get(0).point, "Ray intersection isn't working on polygon");
+        // TC01: intersection in the polygon
+        r1 = new Ray(new Point(0.5, 0.5, -1), new Vector(0, 0, 1));
+        points = p.findGeoIntersections(r1,1.5);
+        assertNull( points, "Wrong number of points");
     }
 }

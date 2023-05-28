@@ -5,6 +5,7 @@ package renderer;
 
 import static java.awt.Color.*;
 
+import geometries.Cylinder;
 import org.junit.jupiter.api.Test;
 
 import geometries.Sphere;
@@ -55,6 +56,10 @@ public class ReflectionRefractionTests {
                 new Sphere(new Point(-950, -900, -1000), 400d).setEmission(new Color(0, 50, 100)) //
                         .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)
                                 .setKt(new Double3(0.5, 0, 0))),
+                new Cylinder(700,new Ray(new Point(-750, -100, -1000),new Vector(-1,1,-0.5)), 100d).setEmission(new Color(0, 50, 100)) //
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKt(new Double3(0.5, 0, 0))),
+                new Cylinder(400,new Ray(new Point(-850, 0, -1050),new Vector(-1,1,-0.5)), 70d).setEmission(new Color(RED)) //
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
                 new Sphere(new Point(-950, -900, -1000), 200d).setEmission(new Color(100, 50, 20)) //
                         .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
                 new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500),

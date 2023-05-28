@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import geometries.Intersectable.*;
 
 import java.util.List;
 
@@ -434,6 +435,23 @@ class TubeTest {
         ray = new Ray(new Point(value2, value2, value2), new Vector(1, 1, 1));
         result = tube2.findIntersections(ray);
         assertNull(result, "Bad intersections");
+
+    }
+    @Test
+    void testFindGeoIntersections(){
+        Point p2 = new Point(1, 1, -7);
+        Vector v2 = new Vector(0, 0, 1);
+        Tube tube2 = new Tube(new Ray(p2, v2), 1);
+
+        Ray ray;
+        // ============ Equivalence Partitions Tests ==============
+
+        // TC02: Ray's crosses the tube (2 points)
+        ray = new Ray(new Point(0, 0, 0), new Vector(2, 1, 1));
+        List<GeoPoint> result = tube2.findGeoIntersections(ray,1);
+        assertNotNull(result, "ERROR - TC02: must be intersections");
+        assertEquals(1, result.size(), "ERROR - TC02: must be 1 intersections");
+        assertEquals(new Point(0.4, 0.2, 0.2), result.get(0).point, "ERROR - TC02: Bad intersections");
 
     }
 }

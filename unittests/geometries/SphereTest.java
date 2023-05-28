@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
@@ -136,5 +137,17 @@ class SphereTest {
         assertNull(sphere.findIntersections(new Ray(new Point(3, 0, 0),
                         new Vector(0, 1, 0))),
                 "Ray's line is outside, ray is orthogonal to ray start to sphere's center line");
+    }
+    @Test
+    void testFindGeoIntersections() {
+    Sphere sphere = new Sphere(new Point(1, 0, 0), 1);
+    // ============ Equivalence Partitions Tests ==============
+    // TC02: Ray starts before and crosses the sphere (2 points)
+    Point p1 = new Point(0.0651530771650466, 0.355051025721682, 0);
+    List<GeoPoint> result = sphere.findGeoIntersections(new Ray(new Point(-1, 0, 0),
+            new Vector(3, 1, 0)),1.5);
+
+        assertEquals(1, result.size(), "Wrong number of points");
+        assertEquals(p1, result.get(0).point, "Ray crosses sphere");
     }
 }
