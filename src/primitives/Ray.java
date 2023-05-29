@@ -26,6 +26,14 @@ public class Ray {
         p0 = p;
         dir = v.normalize();
     }
+
+    /**
+     * Constructs a Ray object with a starting point and direction.
+     *
+     * @param p The starting point of the ray.
+     * @param v The direction vector of the ray.
+     * @param n The normal vector to the ray's plane.
+     */
     public Ray(Point p, Vector v,Vector n) {
         Vector epsVector = n.scale(n.dotProduct(v) > 0 ? DELTA : -DELTA);
         if(isZero(v.dotProduct(n))) {
@@ -89,6 +97,12 @@ public class Ray {
                 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
 
+    /**
+     * Finds the closest GeoPoint from a list of GeoPoints.
+     *
+     * @param geoPointList The list of GeoPoints. It can be empty or contain null values.
+     * @return The closest GeoPoint, or null if the list is empty or contains null values.
+     */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPointList) {
         if (geoPointList == null || geoPointList.size() == 0)
             return null;

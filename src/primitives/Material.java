@@ -21,18 +21,42 @@ public class Material {
         this.kD = kD;
         return this;
     }
+    /**
+     * Sets the transmission coefficient (kT) of the material.
+     *
+     * @param kT The transmission coefficient as a Double3 representing RGB values.
+     * @return The Material object with the updated transmission coefficient.
+     */
     public Material setKt(Double3 kT) {
         this.kT = kT;
         return this;
     }
+    /**
+     * Sets the reflection coefficient (kR) of the material.
+     *
+     * @param kR The reflection coefficient as a Double3 representing RGB values.
+     * @return The Material object with the updated reflection coefficient.
+     */
     public Material setKr(Double3 kR) {
         this.kR = kR;
         return this;
     }
+    /**
+     * Sets the transmission coefficient (kT) of the material using a single value for all RGB channels.
+     *
+     * @param kT The transmission coefficient as a double value.
+     * @return The Material object with the updated transmission coefficient.
+     */
     public Material setKt(double kT) {
         this.kT = new Double3(kT);
         return this;
     }
+    /**
+     * Sets the reflection coefficient (kR) of the material using a single value for all RGB channels.
+     *
+     * @param kR The reflection coefficient as a double value.
+     * @return The Material object with the updated reflection coefficient.
+     */
     public Material setKr(double kR) {
         this.kR = new Double3(kR);
         return this;
