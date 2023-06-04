@@ -70,8 +70,24 @@ public class RayTracerBasic extends RayTracerBase {
     private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
         Vector v = ray.getDir();
         Vector n = gp.geometry.getNormal(gp.point);
+        Color base=new Color(0,0,0);
         Material material = gp.geometry.getMaterial();
-        return calcGlobalEffect(constructReflectedRay(gp, v, n),level, k, material.kR).add(calcGlobalEffect(constructRefractedRay(gp, v, n),level, k, material.kT));}
+        Ray reflected = constructReflectedRay(gp, v, n);
+        Ray refrected = constructRefractedRay(gp, v, n);
+        List<Ray> glossy = material.blackBoard.setRays(reflected).getBeamRays();
+        List<Ray> mat = material.blackBoard.setRays(refrected).getBeamRays();
+        for(Ray glossyRay :glossy){
+            if(reflected.getDir().dotProduct(n)*glossyRay.getDir().dotProduct(n)>0)
+                base=base.add(calcGlobalEffect(glossyRay,level, k, material.kR));
+        }
+
+        for(Ray matRay:mat){
+            if(refrected.getDir().dotProduct(n)*matRay.getDir().dotProduct(n)>0)
+                base=base.add(calcGlobalEffect(matRay,level, k, material.kT));
+        }
+        if(glossy.size()>1||mat.size()>1)base=base.reduce(material.blackBoard.getDensityBeam()*material.blackBoard.getDensityBeam());
+        return base;
+    }
     /**
      * Constructs a reflected ray based on a GeoPoint, incident vector, and surface normal.
      *

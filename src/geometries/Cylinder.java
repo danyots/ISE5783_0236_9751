@@ -117,25 +117,107 @@ public class Cylinder extends Tube {
                 return null;
             }
         }
+        // Check intersection with the bottom base
+        GeoPoint geoPointBaseTop = null;
+        GeoPoint geoPointBaseBottom = null;
+        Point baseCenter = axisRay.getP0();
+        Point upperCenter = baseCenter.add(axisRay.getDir().scale(height));
+        Plane lowwer = new Plane(baseCenter,axisRay.getDir());
+        Plane upper = new Plane(upperCenter,axisRay.getDir());
+        List<Point> intersection1 = lowwer.findIntersections(ray);
+        List<Point> intersection2 = upper.findIntersections(ray);
+        if(intersection1!=null&&intersection1.get(0).distance(baseCenter)<radius)geoPointBaseBottom=new GeoPoint(this,intersection1.get(0));
+        if(intersection2!=null&&intersection2.get(0).distance(upperCenter)<radius)geoPointBaseTop=new GeoPoint(this,intersection2.get(0));
         List<GeoPoint> list1 = super.findGeoIntersectionsHelper(ray,maxDistance);
-        if (list1 == null) return null;
-        if (list1.size() == 1) {
-            Point p = list1.get(0).point;
-            boolean in = inCylinder(p);
-            if (in) {
-                return list1;
+        if(geoPointBaseTop==null&&geoPointBaseBottom==null) {
+            if (list1 == null) return null;
+            if (list1.size() == 1) {
+                Point p = list1.get(0).point;
+                boolean in = inCylinder(p);
+                if (in) {
+                    return list1;
+                }
+                return null;
+            } else if (list1.size() == 2) {
+                Point p1 = list1.get(0).point;
+                Point p2 = list1.get(1).point;
+                boolean intersect1 = inCylinder(p1);
+                boolean intersect2 = inCylinder(p2);
+                if (intersect1 && intersect2) return list1;
+                if (!intersect1 && intersect2) return List.of(new GeoPoint(this, p2));
+                if (intersect1 && !intersect2) return List.of(new GeoPoint(this, p1));
+                if (!intersect1 && !intersect2) return null;
             }
             return null;
-        } else if (list1.size() == 2) {
-            Point p1 = list1.get(0).point;
-            Point p2 = list1.get(1).point;
-            boolean intersect1 = inCylinder(p1);
-            boolean intersect2 = inCylinder(p2);
-            if (intersect1 && intersect2) return list1;
-            if (!intersect1 && intersect2) return List.of(new GeoPoint(this, p2));
-            if (intersect1 && !intersect2) return List.of(new GeoPoint(this, p1));
-            if (!intersect1 && !intersect2) return null;
         }
-        return null;
+        else if(geoPointBaseTop!=null&&geoPointBaseBottom==null){
+            if (list1 == null) return List.of(geoPointBaseTop);
+            if (list1.size() == 1) {
+                Point p = list1.get(0).point;
+                boolean in = inCylinder(p);
+                if (in) {
+                    return List.of(list1.get(0),geoPointBaseTop);
+                }
+                return null;
+            } else if (list1.size() == 2) {
+                Point p1 = list1.get(0).point;
+                Point p2 = list1.get(1).point;
+                boolean intersect1 = inCylinder(p1);
+                boolean intersect2 = inCylinder(p2);
+                if (intersect1 && intersect2){
+                    return List.of(list1.get(0),list1.get(1),geoPointBaseTop);
+                }
+                if (!intersect1 && intersect2) return List.of(new GeoPoint(this, p2),geoPointBaseTop);
+                if (intersect1 && !intersect2) return List.of(new GeoPoint(this, p1),geoPointBaseTop);
+                if (!intersect1 && !intersect2) return List.of(geoPointBaseTop);
+            }
+            return null;
+        }
+        else if(geoPointBaseTop==null&&geoPointBaseBottom!=null){
+            if (list1 == null) return List.of(geoPointBaseBottom);
+            if (list1.size() == 1) {
+                Point p = list1.get(0).point;
+                boolean in = inCylinder(p);
+                if (in) {
+                    return List.of(list1.get(0),geoPointBaseBottom);
+                }
+                return null;
+            } else if (list1.size() == 2) {
+                Point p1 = list1.get(0).point;
+                Point p2 = list1.get(1).point;
+                boolean intersect1 = inCylinder(p1);
+                boolean intersect2 = inCylinder(p2);
+                if (intersect1 && intersect2){
+                    return List.of(list1.get(0),list1.get(1),geoPointBaseBottom);
+                }
+                if (!intersect1 && intersect2) return List.of(new GeoPoint(this, p2),geoPointBaseBottom);
+                if (intersect1 && !intersect2) return List.of(new GeoPoint(this, p1),geoPointBaseBottom);
+                if (!intersect1 && !intersect2) return List.of(geoPointBaseBottom);
+            }
+            return null;
+        }
+        else{
+            if (list1 == null) return List.of(geoPointBaseTop,geoPointBaseBottom);
+            if (list1.size() == 1) {
+                Point p = list1.get(0).point;
+                boolean in = inCylinder(p);
+                if (in) {
+                    return List.of(list1.get(0),geoPointBaseBottom,geoPointBaseTop);
+                }
+                return null;
+            } else if (list1.size() == 2) {
+                Point p1 = list1.get(0).point;
+                Point p2 = list1.get(1).point;
+                boolean intersect1 = inCylinder(p1);
+                boolean intersect2 = inCylinder(p2);
+                if (intersect1 && intersect2){
+                    return List.of(list1.get(0),list1.get(1),geoPointBaseBottom,geoPointBaseTop);
+                }
+                if (!intersect1 && intersect2) return List.of(new GeoPoint(this, p2),geoPointBaseTop,geoPointBaseBottom);
+                if (intersect1 && !intersect2) return List.of(new GeoPoint(this, p1),geoPointBaseTop,geoPointBaseBottom);
+                if (!intersect1 && !intersect2) return List.of(geoPointBaseTop,geoPointBaseBottom);
+            }
+            return null;
+        }
     }
 }

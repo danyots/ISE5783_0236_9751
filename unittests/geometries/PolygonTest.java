@@ -138,12 +138,12 @@ public class PolygonTest {
         Polygon p = new Polygon(new Point(0, 0, 0), new Point(1, 0, 0), new Point(1, 1, 0), new Point(0, 1, 0));
         // TC01: intersection in the polygon
         Ray r1 = new Ray(new Point(0.5, 0.5, -1), new Vector(0, 0, 1));
-        List<GeoPoint> points = p.findGeoIntersections(r1,0.5);
+        List<GeoPoint> points = p.findGeoIntersections(r1,1);
         assertEquals(1, points.size(), "Wrong number of points");
         assertEquals(new Point(0.5, 0.5, 0), points.get(0).point, "Ray intersection isn't working on polygon");
         // TC01: intersection in the polygon
         r1 = new Ray(new Point(0.5, 0.5, -1), new Vector(0, 0, 1));
-        points = p.findGeoIntersections(r1,1.5);
+        points = p.findGeoIntersections(r1,0.5);
         assertNull( points, "Wrong number of points");
     }
 }

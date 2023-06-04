@@ -1,5 +1,7 @@
 package primitives;
 
+import renderer.Blackboard;
+
 /**
  * Represents the material properties of a geometry, including diffuse and specular reflection coefficients
  * <p>
@@ -11,6 +13,15 @@ public class Material {
     public int nShininess = 0; // Shininess factor for specular reflection
     public Double3 kT = Double3.ZERO;
     public Double3 kR = Double3.ZERO;
+    public Blackboard blackBoard=new Blackboard(0);
+    public Material setKB(double kB){
+        blackBoard=new Blackboard(kB);
+        return this;
+    }
+    public Material setDensity(int density){
+        blackBoard.setDensityBeam(density);
+        return this;
+    }
     /**
      * Sets the diffuse reflection coefficient of the material.
      *
