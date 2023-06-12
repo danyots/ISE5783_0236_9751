@@ -14,11 +14,30 @@ import java.util.List;
  */
 @XmlRootElement(name = "scene")
 public class Scene {
+    /**
+     * The name of the scene.
+     */
     public final String name;
+    /**
+     * The background color of the scene.
+     */
     public Color background = Color.BLACK;
+    /**
+     * The ambient light in the scene.
+     */
     public AmbientLight ambientLight = AmbientLight.NONE;
+    /**
+     * The geometries present in the scene.
+     */
     public Geometries geometries = new Geometries();
+    /**
+     * The list of light sources in the scene.
+     */
     public List<LightSource> lights = new LinkedList<>();
+    /**
+     * The XML file associated with the scene.
+     */
+    @SuppressWarnings("unused")
     public XmlFile xmlFile;
 
     /**
@@ -70,6 +89,7 @@ public class Scene {
      * @param lights The list of light sources
      * @return The scene object itself for method chaining
      */
+    @SuppressWarnings("unused")
     public Scene setLights(List<LightSource> lights) {
         this.lights = lights;
         return this;

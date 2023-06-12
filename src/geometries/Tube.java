@@ -43,11 +43,7 @@ public class Tube extends RadialGeometry {
         return "Tube{" + "axisRay=" + axisRay + ", radius=" + radius + "}";
     }
 
-    /**
-     * Returns the normal to a point on the tube.
-     *
-     * @param point is the point on the tube.
-     */
+
     @Override
     public Vector getNormal(Point point) {
         Vector v = axisRay.getDir();
@@ -61,7 +57,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         Vector v = ray.getDir();
         Vector vTube = axisRay.getDir();
         Point p0 = ray.getP0();
@@ -107,9 +103,9 @@ public class Tube extends RadialGeometry {
             double t2D = Util.alignZero(t2 - maxDistance);
             Point p1 = ray.getPoint(t1);
             Point p2 = ray.getPoint(t2);
-            if ((t1 <= 0 || t1D>0)&&(t2D>0 ||t2 <= 0)) return null;
-            else if (t1 > 0 &&t1D<=0 && (t2 <= 0||t2D>0)) return List.of(new GeoPoint(this, p1));
-            else if (t2 > 0 &&t2D<=0&& (t1 <= 0 || t1D>0)) return List.of(new GeoPoint(this, p2));
+            if ((t1 <= 0 || t1D > 0) && (t2D > 0 || t2 <= 0)) return null;
+            else if (t1 > 0 && t1D <= 0 && (t2 <= 0 || t2D > 0)) return List.of(new GeoPoint(this, p1));
+            else if (t2 > 0 && t2D <= 0 && (t1 <= 0 || t1D > 0)) return List.of(new GeoPoint(this, p2));
             return List.of(new GeoPoint(this, p1), new GeoPoint(this, p2));
         }
 

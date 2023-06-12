@@ -1,7 +1,9 @@
 package primitives;
 
 import geometries.Intersectable.GeoPoint;
+import renderer.Blackboard;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -11,10 +13,9 @@ import static primitives.Util.isZero;
  */
 public class Ray {
 
-    final private Point p0;
-
-    final private Vector dir;
     private static final double DELTA = 0.1;
+    final private Point p0;
+    final private Vector dir;
 
     /**
      * Constructs a new Ray object with the given starting point and direction.
@@ -34,16 +35,10 @@ public class Ray {
      * @param v The direction vector of the ray.
      * @param n The normal vector to the ray's plane.
      */
-    public Ray(Point p, Vector v,Vector n) {
+    public Ray(Point p, Vector v, Vector n) {
         Vector epsVector = n.scale(n.dotProduct(v) > 0 ? DELTA : -DELTA);
-        if(isZero(v.dotProduct(n))) {
-            p0 = p;
-            dir = v.normalize();
-        }
-        else {
-            p0 = p.add(epsVector);
-            dir = v.normalize();
-        }
+        p0 = isZero(v.dotProduct(n)) ? p : p.add(epsVector);
+        dir = v.normalize();
     }
 
     /**
@@ -89,7 +84,7 @@ public class Ray {
     /**
      * Finds the closest point from a list of points to the reference point p0.
      *
-     * @param geoPointList The list of points to search for the closest point.
+     * @param points The list of points to search for the closest point.
      * @return The closest point from the list, or null if the list is null or empty.
      */
     public Point findClosestPoint(List<Point> points) {
@@ -117,6 +112,21 @@ public class Ray {
             }
         }
         return closest;
+    }
+
+    /**
+     * Calculates the beams based on the given blackboard.
+     *
+     * @param blackboard the blackboard containing the necessary information
+     * @return a list of rays representing the calculated beams
+     */
+    public List<Ray> calculateBeam(Blackboard blackboard){
+        List<Ray>rays = new LinkedList<>();
+        List<Point> points = blackboard.setRays(this);
+        for(Point point:points){
+            rays.add(new Ray(p0,point.subtract(p0)));
+        }
+        return rays;
     }
 
 

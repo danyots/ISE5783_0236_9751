@@ -12,8 +12,11 @@ import static primitives.Util.alignZero;
  * A spotlight is a type of point light that emits light in a specific direction within a narrow beam.
  */
 public class SpotLight extends PointLight {
-    protected double narrowBeam = 1;
     private final Vector direction;
+    /**
+     * The narrowness of the beam/
+     */
+    protected double narrowBeam = 1;
 
     /**
      * Constructs a SpotLight object with the specified color, position, and direction.

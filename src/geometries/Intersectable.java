@@ -20,9 +20,11 @@ public abstract class Intersectable {
         var geoList = findGeoIntersections(ray);
         return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
     }
+
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
         return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
+
     public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
         return findGeoIntersectionsHelper(ray, maxDistance);
     }
@@ -35,8 +37,7 @@ public abstract class Intersectable {
      * @param ray The ray to intersect with the geometry
      * @return A list of GeoPoint objects representing the intersections
      */
-    protected abstract List<GeoPoint>
-    findGeoIntersectionsHelper(Ray ray, double maxDistance);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
     /**
      * Representation of a geometric intersection point.
@@ -56,23 +57,12 @@ public abstract class Intersectable {
             this.point = point;
         }
 
-        /**
-         * Checks if this GeoPoint is equal to another object.
-         *
-         * @param obj The object to compare
-         * @return true if the objects are equal, false otherwise
-         */
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
             return obj instanceof GeoPoint other && this.geometry == other.geometry && this.point.equals(other.point);
         }
 
-        /**
-         * Returns a string representation of the GeoPoint object.
-         *
-         * @return The string representation of the GeoPoint object
-         */
         @Override
         public String toString() {
             return "GeoPoint{" + "geometry=" + geometry + ", point=" + point + "}";

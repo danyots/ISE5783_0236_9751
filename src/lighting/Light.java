@@ -6,6 +6,9 @@ import primitives.Color;
  * This abstract class represents a light source in a scene.
  */
 abstract class Light {
+    /**
+     * The intensity color of the light.
+     */
     protected final Color intensity;
 
     /**

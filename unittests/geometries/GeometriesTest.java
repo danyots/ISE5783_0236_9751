@@ -1,10 +1,10 @@
 package geometries;
 
+import geometries.Intersectable.GeoPoint;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import geometries.Intersectable.*;
 
 import java.util.List;
 
@@ -67,8 +67,9 @@ class GeometriesTest {
         assertEquals(1, result6.size(), "triangle only");
 
     }
+
     @Test
-    void testFindGeoIntersections(){
+    void testFindGeoIntersections() {
         Plane plane = new Plane(new Point(1, 2, 0), new Point(1, 7, 0), new Point(-2, 13, 0));
         Sphere sphere = new Sphere(new Point(5, 0, 0), 1);
         Triangle tri = new Triangle(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
@@ -78,11 +79,11 @@ class GeometriesTest {
         // **** Group: intersection with part of the geometries
         //TC01: plane and tri
         List<GeoPoint> result = geo.findGeoIntersections(new Ray(new Point(0.25, 0.25, 4),
-                new Vector(0, 0, -1)),1);
+                new Vector(0, 0, -1)), 1);
         assertNull(result, "plane and tri");
         //TC02: sphere and plane
         result = geo.findGeoIntersections(new Ray(new Point(5, 0, 5),
-                new Vector(0, 0, -1)),5);
+                new Vector(0, 0, -1)), 5);
         assertEquals(2, result.size(), "sphere and plane");
 
     }

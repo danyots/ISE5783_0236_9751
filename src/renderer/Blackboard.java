@@ -7,138 +7,147 @@ import primitives.Vector;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import primitives.*;
+
 import static primitives.Util.isZero;
 
+/**
+ * The Blackboard class represents a virtual blackboard used in rendering.
+ * It is responsible for managing the placement and properties of rays on the blackboard.
+ */
 public class Blackboard {
-    protected Point pC;
-    public List<Ray> beamRays=new LinkedList<>();
-    protected Vector vUp;
-    protected Vector vRight;
-    protected double width=0;
 
+    /**
+     * The center point of the blackboard.
+     */
+    protected Point pC;
+
+    /**
+     * The upward direction vector on the blackboard.
+     */
+    protected Vector vUp;
+
+    /**
+     * The right direction vector on the blackboard.
+     */
+    protected Vector vRight;
+
+    /**
+     * The width of the blackboard. Default value is 0.
+     */
+    protected double width = 0;
+
+    /**
+     * The density of rays in the beam. Default value is 9.
+     */
+    private int densityBeam = 9;
+
+    /**
+     * The distance between the blackboard and the rays.
+     */
+    private double distance = 3;
+
+    /**
+     * Gets the density of rays in the beam.
+     *
+     * @return The density of rays in the beam.
+     */
     public int getDensityBeam() {
         return densityBeam;
     }
 
-    private int densityBeam=9;
-    private Ray main;
-
-    public Blackboard(double kB){
-        width=kB;
-    }
-    public Ray getMain(){
-        return main;
-    }
-
     /**
-     * Constructs a camera with the specified position, target, and up vectors.
-     * The direction vectors must be orthogonal.
+     * Gets the width of the blackboard.
      *
-     * @param p   The position of the camera
-     * @param vTo The direction vector pointing towards the target
-     * @param vUp The direction vector pointing upwards
-     * @throws IllegalArgumentException if the direction vectors are not orthogonal
-     */
-    public Blackboard setRays(Ray ray) {
-        main=ray;
-        Vector vRay=main.getDir();
-        Point pRay=main.getP0();
-        pC = pRay.add(vRay.scale(3));
-        if(vRay.equals(new Vector(0,0,1))||vRay.equals(new Vector(0,0,-1))) vUp=new Vector(0,1,0);
-        else {
-            vUp = new Vector(-vRay.getY(), vRay.getX(), 0).normalize();
-        }
-        this.vRight=vRay.crossProduct(vUp);
-        this.beamRays=constructRays(pRay);
-        return this;
-    }
-
-
-
-    /**
-     * Returns the position of the camera.
-     *
-     * @return The position of the camera
-     */
-    public Point getPC() {
-        return pC;
-    }
-
-    /**
-     * Returns the up vector of the camera.
-     *
-     * @return The up vector of the camera
-     */
-    public Vector getvUp() {
-        return vUp;
-    }
-
-    /**
-     * Returns the direction vector of the camera.
-     *
-     * @return The direction vector of the camera
-     */
-
-    /**
-     * Returns the right vector of the camera.
-     *
-     * @return The right vector of the camera
-     */
-    public Vector getvRight() {
-        return vRight;
-    }
-
-    /**
-     * Returns the width of the viewport.
-     *
-     * @return The width of the viewport
+     * @return The width of the blackboard.
      */
     public double getWidth() {
         return width;
     }
-    /**
-     * Returns the distance between the camera and the viewport.
-     *
-     * @return The distance between the camera and the viewport
-     */
 
     /**
-     * Sets the distance between the camera and the viewport.
+     * Sets the width of the blackboard.
      *
-     * @param distance The distance between the camera and the viewport
-     * @return This camera object with the updated distance value
+     * @param width The width of the blackboard.
+     * @return The updated blackboard.
      */
-    public List<Ray> constructRays(Point pRay) {
-        List<Ray> rays = new LinkedList<>();
-        if(width==0||densityBeam==0||densityBeam==1)return List.of(main);
-        for(int i=0;i<densityBeam;i++) {
-            for (int j = 0; j < densityBeam; j++) {
-                double rY = Util.alignZero(width / densityBeam);
-                double rX = Util.alignZero(width / densityBeam);
-                double randomX= Util.alignZero(ThreadLocalRandom.current().nextDouble()*2*rX-rX);
-                double randomY= Util.alignZero(ThreadLocalRandom.current().nextDouble()*2*rY-rY);
-                double yI = Util.alignZero(-Util.alignZero(i - Util.alignZero(densityBeam - 1) / 2) * Util.alignZero(rY)+randomY);
-                double xJ = Util.alignZero(Util.alignZero(j - Util.alignZero(densityBeam - 1) / 2) * Util.alignZero(rX)+randomX);
-                Point pIJ = pC;
-                if (!isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ));
-                if (!isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
-                Vector v=pIJ.subtract(pRay);
-                if(pIJ.distance(pC)<width/2)
-                    rays.add(new Ray(pRay,pIJ.subtract(pRay)));
-            }
-        }
-        return rays;
-    }
-
-    public List<Ray> getBeamRays() {
-        return beamRays;
-    }
-
-    public Blackboard setDensityBeam (int densityBeam){
-        this.densityBeam = densityBeam;
-        if(main!=null) this.beamRays=constructRays(main.getP0());
+    public Blackboard setWidth(double width) {
+        this.width = width;
         return this;
     }
+
+    /**
+     * Constructs a blackboard with the specified width.
+     *
+     * @param kB The width of the blackboard.
+     */
+    public Blackboard(double kB) {
+        width = kB;
+    }
+
+    /**
+     * Sets the density of rays in the beam.
+     *
+     * @param densityBeam The density of rays in the beam.
+     * @return The updated blackboard.
+     */
+    public Blackboard setDensityBeam(int densityBeam) {
+        this.densityBeam = densityBeam;
+        return this;
+    }
+
+    /**
+     * Sets the rays for the given ray.
+     *
+     * @param ray The ray for which to set the rays.
+     * @return The list of points representing the rays.
+     */
+    public List<Point> setRays(Ray ray) {
+        Vector vRay = ray.getDir();
+        Point pRay = ray.getP0();
+        pC = pRay.add(vRay.scale(distance));
+        if (vRay.equals(new Vector(0, 0, 1)) || vRay.equals(new Vector(0, 0, -1))) {
+            vUp = new Vector(0, 1, 0);
+        } else {
+            vUp = new Vector(-vRay.getY(), vRay.getX(), 0).normalize();
+        }
+        this.vRight = vRay.crossProduct(vUp);
+        return constructGrid(ray);
+    }
+    /**
+     * Constructs a grid of points along the given ray.
+     *
+     * @param ray the ray to construct the grid along
+     * @return a list of points forming the grid
+     */
+    private List<Point> constructGrid(Ray ray) {
+        List<Point> points = new LinkedList<>();
+        if (width == 0 || densityBeam == 0 || densityBeam == 1) {
+            return List.of(ray.getP0().add(ray.getDir()));
+        }
+        double relative = Math.sqrt(1.27324);
+        double rG = Util.alignZero(width / (densityBeam * relative));
+        for (int i = 0; i < densityBeam * relative; i++) {
+            for (int j = 0; j < densityBeam * relative; j++) {
+                Random r = new Random();
+                double randomX = Util.alignZero(r.nextDouble() * rG - (rG / 2));
+                double randomY = Util.alignZero(r.nextDouble() * rG - (rG / 2));
+                double yI = Util.alignZero(-Util.alignZero(i - Util.alignZero(densityBeam * relative - 1) / 2) * Util.alignZero(rG) + randomY);
+                double xJ = Util.alignZero(Util.alignZero(j - Util.alignZero(densityBeam * relative - 1) / 2) * Util.alignZero(rG) + randomX);
+                Point pIJ = pC;
+                if (!isZero(xJ)) {
+                    pIJ = pIJ.add(vRight.scale(xJ));
+                }
+                if (!isZero(yI)) {
+                    pIJ = pIJ.add(vUp.scale(yI));
+                }
+                if (pIJ.distance(pC) < width / 2) {
+                    points.add(pIJ);
+                }
+            }
+        }
+        return points;
+    }
+
 }

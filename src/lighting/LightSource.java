@@ -8,12 +8,12 @@ import primitives.Vector;
  * This interface represents a light source in a scene.
  **/
 public interface LightSource {
-    /*
-
-    Gets the intensity of the light at a given point.
-    @param p The point at which to calculate the intensity
-    @return The Color representing the intensity of the light
-    */
+    /**
+     * Gets the intensity of the light at a given point.
+     *
+     * @param p The point at which to calculate the intensity
+     * @return The Color representing the intensity of the light
+     */
     public Color getIntensity(Point p);
 
     /**
@@ -23,6 +23,7 @@ public interface LightSource {
      * @return The Vector representing the direction of the light
      */
     public Vector getL(Point p);
+
     double getDistance(Point point);
 
 

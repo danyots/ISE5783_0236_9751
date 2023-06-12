@@ -43,11 +43,6 @@ public class Plane extends Geometry {
         normal = v.normalize();
     }
 
-    /**
-     * Returns the normal to a point on the plane.
-     *
-     * @param point is the point on the plane
-     */
     @Override
     public Vector getNormal(Point point) {
         return normal;
@@ -73,14 +68,13 @@ public class Plane extends Geometry {
 
     @Override
     protected List<GeoPoint>
-    findGeoIntersectionsHelper(Ray ray, double maxDistance){
+    findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (q0.equals(ray.getP0())) return null;
         double nv = normal.dotProduct(ray.getDir());
         if (isZero(nv)) return null;
         double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / nv);
-        return t > 0 && Util.alignZero(t-maxDistance)<=0 ? List.of(new GeoPoint(this, ray.getPoint(t))) : null;
+        return t > 0 && Util.alignZero(t - maxDistance) <= 0 ? List.of(new GeoPoint(this, ray.getPoint(t))) : null;
     }
-
 
     @Override
     public String toString() {

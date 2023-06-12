@@ -32,7 +32,7 @@ public class Sphere extends RadialGeometry {
      *
      * @return the center point of the sphere.
      */
-
+    @SuppressWarnings("unused")
     public Point getCenter() {
         return center;
     }
@@ -48,7 +48,7 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (center.equals(ray.getP0())) return List.of(new GeoPoint(this, ray.getPoint(radius)));
 
         Vector u = center.subtract(ray.getP0());
@@ -65,18 +65,15 @@ public class Sphere extends RadialGeometry {
         double t1 = alignZero(tm - th);
 
         double t1D = Util.alignZero(t1 - maxDistance);
-        double t2D = Util.alignZero(t2 - maxDistance);
-        if (t1D > 0 && t2D > 0) return null;
+        if (t1D > 0) return null;
 
-        if (t2D <= 0) {
-            return t1 <= 0 || t1D >0? //
+        double t2D = Util.alignZero(t2 - maxDistance);
+        if (t2D <= 0)
+            return t1 <= 0 ? //
                     List.of(new GeoPoint(this, ray.getPoint(t2))) : //
                     List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
-        }
-        else{
-            return t1 <= 0 || t1D >0? //
-                    null : //
-                    List.of(new GeoPoint(this, ray.getPoint(t1)));
-        }
+
+        return t1 <= 0 ? null : //
+                List.of(new GeoPoint(this, ray.getPoint(t1)));
     }
 }

@@ -8,20 +8,54 @@ import renderer.Blackboard;
  * and the shininess factor for specular reflection.
  */
 public class Material {
-    public Double3 kD = Double3.ZERO; // Diffuse reflection coefficient
-    public Double3 kS = Double3.ZERO; // Specular reflection coefficient
-    public int nShininess = 0; // Shininess factor for specular reflection
+    /**
+     * Diffuse reflection coefficient.
+     */
+    public Double3 kD = Double3.ZERO;
+    /**
+     * Specular reflection coefficient.
+     */
+    public Double3 kS = Double3.ZERO;
+    /**
+     * Shininess factor for specular reflection.
+     */
+    public int nShininess = 0;
+    /**
+     * Transmission coefficient for refracted light.
+     */
     public Double3 kT = Double3.ZERO;
+    /**
+     * Reflection coefficient for reflected light.
+     */
     public Double3 kR = Double3.ZERO;
-    public Blackboard blackBoard=new Blackboard(0);
-    public Material setKB(double kB){
-        blackBoard=new Blackboard(kB);
+    /**
+     * The blackboard used for material properties.
+     */
+    public Blackboard blackBoard = new Blackboard(0);
+
+    /**
+     * Sets the reflection coefficient for the blackboard material.
+     *
+     * @param kB The reflection coefficient value to set.
+     * @return The Material object itself.
+     */
+    public Material setKB(double kB) {
+        blackBoard.setWidth(kB);
         return this;
     }
-    public Material setDensity(int density){
+
+    /**
+     * Sets the density of the beam for the blackboard material.
+     *
+     * @param density The density value to set.
+     * @return The Material object itself.
+     */
+    @SuppressWarnings("unused")
+    public Material setDensity(int density) {
         blackBoard.setDensityBeam(density);
         return this;
     }
+
     /**
      * Sets the diffuse reflection coefficient of the material.
      *
@@ -32,6 +66,7 @@ public class Material {
         this.kD = kD;
         return this;
     }
+
     /**
      * Sets the transmission coefficient (kT) of the material.
      *
@@ -42,6 +77,7 @@ public class Material {
         this.kT = kT;
         return this;
     }
+
     /**
      * Sets the reflection coefficient (kR) of the material.
      *
@@ -52,6 +88,7 @@ public class Material {
         this.kR = kR;
         return this;
     }
+
     /**
      * Sets the transmission coefficient (kT) of the material using a single value for all RGB channels.
      *
@@ -62,6 +99,7 @@ public class Material {
         this.kT = new Double3(kT);
         return this;
     }
+
     /**
      * Sets the reflection coefficient (kR) of the material using a single value for all RGB channels.
      *
