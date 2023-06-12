@@ -61,14 +61,15 @@ public class RayTracerBasic extends RayTracerBase {
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
         return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K).add(scene.ambientLight.getIntensity());
     }
+
     /**
      * Calculates the color of global effects for a given GeoPoint.
      *
-     * @param gp      The GeoPoint at which to calculate the global effects.
-     * @param n       The surface normal at the GeoPoint.
-     * @param v       The viewing direction.
-     * @param level   The recursion level for ray tracing.
-     * @param k       The coefficient values.
+     * @param gp    The GeoPoint at which to calculate the global effects.
+     * @param n     The surface normal at the GeoPoint.
+     * @param v     The viewing direction.
+     * @param level The recursion level for ray tracing.
+     * @param k     The coefficient values.
      * @return The calculated color of the global effects.
      */
     private Color calcGlobalEffects(GeoPoint gp, Vector n, Vector v, int level, Double3 k) {

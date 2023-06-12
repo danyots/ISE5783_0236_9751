@@ -8,7 +8,6 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static primitives.Util.isZero;
 
@@ -49,12 +48,32 @@ public class Blackboard {
     private double distance = 3;
 
     /**
+     * Constructs a blackboard with the specified width.
+     *
+     * @param kB The width of the blackboard.
+     */
+    public Blackboard(double kB) {
+        width = kB;
+    }
+
+    /**
      * Gets the density of rays in the beam.
      *
      * @return The density of rays in the beam.
      */
     public int getDensityBeam() {
         return densityBeam;
+    }
+
+    /**
+     * Sets the density of rays in the beam.
+     *
+     * @param densityBeam The density of rays in the beam.
+     * @return The updated blackboard.
+     */
+    public Blackboard setDensityBeam(int densityBeam) {
+        this.densityBeam = densityBeam;
+        return this;
     }
 
     /**
@@ -78,26 +97,6 @@ public class Blackboard {
     }
 
     /**
-     * Constructs a blackboard with the specified width.
-     *
-     * @param kB The width of the blackboard.
-     */
-    public Blackboard(double kB) {
-        width = kB;
-    }
-
-    /**
-     * Sets the density of rays in the beam.
-     *
-     * @param densityBeam The density of rays in the beam.
-     * @return The updated blackboard.
-     */
-    public Blackboard setDensityBeam(int densityBeam) {
-        this.densityBeam = densityBeam;
-        return this;
-    }
-
-    /**
      * Sets the rays for the given ray.
      *
      * @param ray The ray for which to set the rays.
@@ -115,6 +114,7 @@ public class Blackboard {
         this.vRight = vRay.crossProduct(vUp);
         return constructGrid(ray);
     }
+
     /**
      * Constructs a grid of points along the given ray.
      *

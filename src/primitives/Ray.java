@@ -120,11 +120,11 @@ public class Ray {
      * @param blackboard the blackboard containing the necessary information
      * @return a list of rays representing the calculated beams
      */
-    public List<Ray> calculateBeam(Blackboard blackboard){
-        List<Ray>rays = new LinkedList<>();
+    public List<Ray> calculateBeam(Blackboard blackboard) {
+        List<Ray> rays = new LinkedList<>();
         List<Point> points = blackboard.setRays(this);
-        for(Point point:points){
-            rays.add(new Ray(p0,point.subtract(p0)));
+        for (Point point : points) {
+            rays.add(new Ray(p0, point.subtract(p0)));
         }
         return rays;
     }

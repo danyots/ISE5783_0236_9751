@@ -1,9 +1,11 @@
 package renderer;
 
-import geometries.*;
+import geometries.Cylinder;
+import geometries.Polygon;
+import geometries.Sphere;
+import geometries.Tube;
 import lighting.AmbientLight;
 import lighting.DirectionalLight;
-import lighting.PointLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
@@ -30,7 +32,7 @@ public class glossyMatTest {
         scene.lights.add( //
                 new DirectionalLight(new Color(cyan), new Vector(-1, 0, 0)));
         scene.setAmbientLight((new AmbientLight(new Color(255, 255, 255), 0.1)));
-        camera.setImageWriter(new ImageWriter("glossyMat", 500, 500)) //
+        camera.setImageWriter(new ImageWriter("glossyMat", 1000, 1000)) //
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage(); //
         camera.writeToImage();
