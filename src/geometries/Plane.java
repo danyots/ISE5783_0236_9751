@@ -80,4 +80,9 @@ public class Plane extends Geometry {
     public String toString() {
         return "Plane{" + "q0=" + q0 + ", normal=" + normal + "}";
     }
+
+    @Override
+    public boolean isIntersectBox(Ray ray) {
+        return true;
+    }
 }

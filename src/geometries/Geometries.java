@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.Ray;
+import scene.Scene;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -45,6 +46,9 @@ public class Geometries extends Intersectable {
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> intersects = null;
         for (Intersectable i : geometries) {
+            if(Scene.isAABB){
+                if(!i.isIntersectBox(ray))continue;
+            }
             List<GeoPoint> geometryIntersects = i.findGeoIntersections(ray, maxDistance);
             if (geometryIntersects != null) {
                 if (intersects == null)
@@ -54,5 +58,14 @@ public class Geometries extends Intersectable {
             }
         }
         return intersects;
+    }
+
+    @Override
+    public boolean isIntersectBox(Ray ray) {
+        boolean isIntersec = false;
+        for(Intersectable g:geometries){
+            isIntersec = isIntersec || g.isIntersectBox(ray);
+        }
+        return  isIntersec;
     }
 }

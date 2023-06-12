@@ -14,6 +14,9 @@ import java.util.List;
  */
 @XmlRootElement(name = "scene")
 public class Scene {
+
+
+    public static boolean isAABB=false;
     /**
      * The name of the scene.
      */
@@ -58,6 +61,10 @@ public class Scene {
     public Scene setBackground(Color background) {
         this.background = background;
         return this;
+    }
+    public  Scene setIsAABB(boolean isAABB) {
+        Scene.isAABB = isAABB;
+        return  this;
     }
 
     /**

@@ -92,14 +92,16 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private Color calcGlossyMattColor(Ray optic, Vector n, int level, Double3 k, Material material, Double3 kx) {
         Color color = Color.BLACK;
+        Vector dir = optic.getDir();
         List<Ray> rayBeam = optic.calculateBeam(material.blackBoard);
+        int counter = 0;
         for (Ray ray : rayBeam) {
-            if (optic.getDir().dotProduct(n) * ray.getDir().dotProduct(n) > 0) {
+            if (dir.dotProduct(n) * ray.getDir().dotProduct(n) > 0) {
                 color = color.add(calcGlobalEffect(ray, level, k, kx));
+                ++counter;
             }
         }
-        int density = material.blackBoard.getDensityBeam();
-        return isZero(material.blackBoard.getWidth()) || material.blackBoard.getDensityBeam() <= 1 ? color : color.reduce(density * density);
+        return color.reduce(counter);
     }
 
     /**
@@ -150,7 +152,6 @@ public class RayTracerBasic extends RayTracerBase {
      * @param ray The Ray to find intersections with.
      * @return The closest GeoPoint representing the closest intersection, or null if no intersection is found.
      */
-
     private GeoPoint findClosestIntersection(Ray ray) {
         List<GeoPoint> points = scene.geometries.findGeoIntersections(ray);
         return ray.findClosestGeoPoint(points);

@@ -2,7 +2,6 @@ package renderer;
 
 import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 
 import java.util.LinkedList;
@@ -16,26 +15,27 @@ import static primitives.Util.isZero;
  * It is responsible for managing the placement and properties of rays on the blackboard.
  */
 public class Blackboard {
+    private static final Random random = new Random();
 
     /**
      * The center point of the blackboard.
      */
-    protected Point pC;
+    private Point pC;
 
     /**
      * The upward direction vector on the blackboard.
      */
-    protected Vector vUp;
+    private Vector vUp;
 
     /**
      * The right direction vector on the blackboard.
      */
-    protected Vector vRight;
+    private Vector vRight;
 
     /**
      * The width of the blackboard. Default value is 0.
      */
-    protected double width = 0;
+    private double width;
 
     /**
      * The density of rays in the beam. Default value is 9.
@@ -45,7 +45,12 @@ public class Blackboard {
     /**
      * The distance between the blackboard and the rays.
      */
-    private double distance = 3;
+    private static final double distance = 3;
+
+    private int relative = (int) (densityBeam * Math.sqrt(1.27324));
+    private double align = (relative - 1) / 2d;
+    private double rG;
+    private double halfRG;
 
     /**
      * Constructs a blackboard with the specified width.
@@ -54,6 +59,8 @@ public class Blackboard {
      */
     public Blackboard(double kB) {
         width = kB;
+        rG = width / relative;
+        halfRG = rG / 2;
     }
 
     /**
@@ -73,6 +80,10 @@ public class Blackboard {
      */
     public Blackboard setDensityBeam(int densityBeam) {
         this.densityBeam = densityBeam;
+        relative = (int) (densityBeam * Math.sqrt(1.27324));
+        align = (relative - 1) / 2d;
+        rG = width / relative;
+        halfRG = rG / 2;
         return this;
     }
 
@@ -93,6 +104,8 @@ public class Blackboard {
      */
     public Blackboard setWidth(double width) {
         this.width = width;
+        rG = width / relative;
+        halfRG = rG / 2;
         return this;
     }
 
@@ -106,11 +119,12 @@ public class Blackboard {
         Vector vRay = ray.getDir();
         Point pRay = ray.getP0();
         pC = pRay.add(vRay.scale(distance));
-        if (vRay.equals(new Vector(0, 0, 1)) || vRay.equals(new Vector(0, 0, -1))) {
-            vUp = new Vector(0, 1, 0);
-        } else {
+
+        if (vRay.equals(Vector.Z) || vRay.equals(Vector.MINUS_Z))
+            vUp = Vector.Y;
+        else
             vUp = new Vector(-vRay.getY(), vRay.getX(), 0).normalize();
-        }
+
         this.vRight = vRay.crossProduct(vUp);
         return constructGrid(ray);
     }
@@ -122,29 +136,21 @@ public class Blackboard {
      * @return a list of points forming the grid
      */
     private List<Point> constructGrid(Ray ray) {
-        List<Point> points = new LinkedList<>();
-        if (width == 0 || densityBeam == 0 || densityBeam == 1) {
+        if (width == 0 || densityBeam <= 1)
             return List.of(ray.getP0().add(ray.getDir()));
-        }
-        double relative = Math.sqrt(1.27324);
-        double rG = Util.alignZero(width / (densityBeam * relative));
-        for (int i = 0; i < densityBeam * relative; i++) {
-            for (int j = 0; j < densityBeam * relative; j++) {
-                Random r = new Random();
-                double randomX = Util.alignZero(r.nextDouble() * rG - (rG / 2));
-                double randomY = Util.alignZero(r.nextDouble() * rG - (rG / 2));
-                double yI = Util.alignZero(-Util.alignZero(i - Util.alignZero(densityBeam * relative - 1) / 2) * Util.alignZero(rG) + randomY);
-                double xJ = Util.alignZero(Util.alignZero(j - Util.alignZero(densityBeam * relative - 1) / 2) * Util.alignZero(rG) + randomX);
+
+        List<Point> points = new LinkedList<>();
+        for (int i = 0; i < relative; i++) {
+            for (int j = 0; j < relative; j++) {
+                double randomX = random.nextDouble() * rG - halfRG;
+                double randomY = random.nextDouble() * rG - halfRG;
+                double yI = -(i - align) * rG + randomY;
+                double xJ = (j - align) * rG + randomX;
+
                 Point pIJ = pC;
-                if (!isZero(xJ)) {
-                    pIJ = pIJ.add(vRight.scale(xJ));
-                }
-                if (!isZero(yI)) {
-                    pIJ = pIJ.add(vUp.scale(yI));
-                }
-                if (pIJ.distance(pC) < width / 2) {
-                    points.add(pIJ);
-                }
+                if (!isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ));
+                if (!isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
+                if (pIJ.distance(pC) < width / 2) points.add(pIJ);
             }
         }
         return points;

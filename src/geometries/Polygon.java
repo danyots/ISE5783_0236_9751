@@ -21,6 +21,27 @@ public class Polygon extends Geometry {
      * List of polygon's vertices
      */
     protected final List<Point> vertices;
+
+    @Override
+    public boolean isIntersectBox(Ray ray) {
+        double minX=vertices.get(0).getX();
+        double maxX=vertices.get(0).getX();
+        double minY=vertices.get(0).getY();
+        double maxY=vertices.get(0).getY();
+        double minZ=vertices.get(0).getZ();
+        double maxZ=vertices.get(0).getZ();
+        for(Point p:vertices){
+            if(p.getX()<minX)minX=p.getX();
+            if(p.getX()>maxX)maxX=p.getX();
+            if(p.getX()<minY)minX=p.getY();
+            if(p.getY()>maxX)maxX=p.getY();
+            if(p.getZ()<minX)minX=p.getZ();
+            if(p.getZ()>maxX)maxX=p.getZ();
+        }
+        box=new Box(minX,minY,minZ,maxX,maxY,maxZ);
+        return box.intersects(ray);
+    }
+
     /**
      * Associated plane in which the polygon lays
      */

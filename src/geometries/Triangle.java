@@ -35,6 +35,11 @@ public class Triangle extends Polygon {
     }
 
     @Override
+    public boolean isIntersectBox(Ray ray) {
+        return super.isIntersectBox(ray);
+    }
+
+    @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> points = plane.findGeoIntersectionsHelper(ray, maxDistance);
         if (points == null) return null;

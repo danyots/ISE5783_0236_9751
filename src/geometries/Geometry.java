@@ -1,9 +1,6 @@
 package geometries;
 
-import primitives.Color;
-import primitives.Material;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * The abstract class Geometry represents a geometry object.

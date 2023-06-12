@@ -9,6 +9,8 @@ import java.util.List;
  * The abstract class Intersectable represents intersectable objects.
  */
 public abstract class Intersectable {
+    protected Box box;
+
     /**
      * Searches for intersections between a Ray and geometry body.
      *
@@ -39,6 +41,8 @@ public abstract class Intersectable {
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
+    public abstract boolean isIntersectBox(Ray ray);
+
     /**
      * Representation of a geometric intersection point.
      */
@@ -56,6 +60,7 @@ public abstract class Intersectable {
             this.geometry = geometry;
             this.point = point;
         }
+
 
         @Override
         public boolean equals(Object obj) {

@@ -48,6 +48,18 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
+    public boolean isIntersectBox(Ray ray) {
+        double minX = center.getX() - radius;
+        double minY = center.getY() - radius;
+        double minZ = center.getZ() - radius;
+        double maxX = center.getX() + radius;
+        double maxY = center.getY() + radius;
+        double maxZ = center.getZ() + radius;
+        box=new Box(minX,minY,minZ,maxX,maxY,maxZ);
+        return box.intersects(ray);
+    }
+
+    @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (center.equals(ray.getP0())) return List.of(new GeoPoint(this, ray.getPoint(radius)));
 

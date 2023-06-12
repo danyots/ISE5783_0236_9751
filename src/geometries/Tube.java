@@ -18,6 +18,11 @@ public class Tube extends RadialGeometry {
      */
     final protected Ray axisRay;
 
+    @Override
+    public boolean isIntersectBox(Ray ray) {
+        return true;
+    }
+
     /**
      * Constructs a new `Tube` object with the specified central `Ray` axis and radius.
      *

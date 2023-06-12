@@ -16,6 +16,10 @@ public class Vector extends Point {
      * Vector for the Z axis
      */
     public static final Vector Z = new Vector(0, 0, 1);
+    /**
+     * Vector for the ooposite to Z axis
+     */
+    public static final Vector MINUS_Z = new Vector(0, 0, -1);
 
     /**
      * Constructs a new Vector object using three coordinates.
