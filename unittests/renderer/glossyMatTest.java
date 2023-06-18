@@ -18,7 +18,7 @@ public class glossyMatTest {
     @Test
     public void glossyMuteTest() {
         Camera camera = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(200, 150).setVPDistance(500);
-        //scene.setIsAABB(true);
+        scene.setIsAABB(true);
         scene.geometries.add(
                 //new Plane(new Point(0, -25, 0), new Point(10, -25, 7), new Point(-17, -25, 15)).setMaterial(new Material().setKs(0.2).setKd(0.2).setShininess(60)).setEmission(new Color(yellow)),
                 new Polygon(new Point(-75, -25, -510), new Point(-75, 60, -510), new Point(-25, 60, -510), new Point(-25, -25, -510)).setEmission(new Color(darkGray)).setMaterial(new Material().setKt(1).setKs(0.2).setKd(0.2).setShininess(60).setKB(0.7).setDensity(9)),

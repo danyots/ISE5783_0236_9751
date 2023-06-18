@@ -12,6 +12,9 @@ import static primitives.Util.isZero;
  * The Ray class represents a ray in 3D space. A ray is defined by a starting point and a direction.
  */
 public class Ray {
+    /**
+     * Flag indicating whether Axis-Aligned Bounding Box (AABB) optimization is enabled.
+     */
     public boolean isAABB;
 
     private static final double DELTA = 0.1;
@@ -114,6 +117,11 @@ public class Ray {
         }
         return closest;
     }
+    /**
+     * Sets the flag indicating whether Axis-Aligned Bounding Box (AABB) optimization is enabled.
+     *
+     * @param isAABB true to enable AABB, false to disable it.
+     */
     public void setAABB(boolean isAABB){
         this.isAABB=isAABB;
     }

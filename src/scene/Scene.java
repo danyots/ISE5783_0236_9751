@@ -17,7 +17,10 @@ import java.util.List;
 public class Scene {
 
 
-    public boolean isAABB=false;
+    /**
+     * The flag indicating whether AABB (Axis-Aligned Bounding Box) is enabled.
+     */
+    public boolean isAABB = false;
     /**
      * The name of the scene.
      */
@@ -63,6 +66,12 @@ public class Scene {
         this.background = background;
         return this;
     }
+    /**
+     * Sets the flag indicating whether AABB (Axis-Aligned Bounding Box) is enabled.
+     *
+     * @param isAABB The flag indicating whether AABB is enabled.
+     * @return The updated Scene object.
+     */
     public  Scene setIsAABB(boolean isAABB) {
         this.isAABB = isAABB;
         return  this;
