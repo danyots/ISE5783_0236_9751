@@ -23,23 +23,31 @@ public class Polygon extends Geometry {
     protected final List<Point> vertices;
 
     @Override
-    public boolean isIntersectBox(Ray ray) {
-        double minX=vertices.get(0).getX();
-        double maxX=vertices.get(0).getX();
-        double minY=vertices.get(0).getY();
-        double maxY=vertices.get(0).getY();
-        double minZ=vertices.get(0).getZ();
-        double maxZ=vertices.get(0).getZ();
+    public void constructBox() {
+        Point first = vertices.get(0);
+        double minX=first.getX();
+        double maxX=first.getX();
+        double minY=first.getY();
+        double maxY=first.getY();
+        double minZ=first.getZ();
+        double maxZ=first.getZ();
         for(Point p:vertices){
-            if(p.getX()<minX)minX=p.getX();
-            if(p.getX()>maxX)maxX=p.getX();
-            if(p.getX()<minY)minX=p.getY();
-            if(p.getY()>maxX)maxX=p.getY();
-            if(p.getZ()<minX)minX=p.getZ();
-            if(p.getZ()>maxX)maxX=p.getZ();
+            double X=p.getX();
+            double Y=p.getY();
+            double Z=p.getZ();
+            if(X<minX)minX=X;
+            if(X>maxX)maxX=X;
+            if(Y<minY)minY=Y;
+            if(Y>maxY)maxY=Y;
+            if(Z<minZ)minZ=Z;
+            if(Z>maxZ)maxZ=Z;
         }
         box=new Box(minX,minY,minZ,maxX,maxY,maxZ);
-        return box.intersects(ray);
+    }
+
+    @Override
+    public boolean isIntersectBox(Ray ray, double maxDistance) {
+        return box.intersects(ray,maxDistance);
     }
 
     /**
@@ -80,6 +88,7 @@ public class Polygon extends Geometry {
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
         plane = new Plane(vertices[0], vertices[1], vertices[2]);
+        constructBox();
         if (size == 3) return; // no need for more tests for a Triangle
 
         Vector n = plane.getNormal();
@@ -108,6 +117,7 @@ public class Polygon extends Geometry {
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
+
     }
 
     @Override

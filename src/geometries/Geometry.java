@@ -30,6 +30,7 @@ public abstract class Geometry extends Intersectable {
         return this;
     }
 
+
     /**
      * Gets the emission color of the geometry.
      *

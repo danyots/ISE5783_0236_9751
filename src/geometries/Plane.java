@@ -82,7 +82,12 @@ public class Plane extends Geometry {
     }
 
     @Override
-    public boolean isIntersectBox(Ray ray) {
+    public boolean isIntersectBox(Ray ray, double maxDistance) {
         return true;
+    }
+
+    @Override
+    public void constructBox() {
+        return;
     }
 }

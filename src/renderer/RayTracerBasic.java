@@ -31,6 +31,7 @@ public class RayTracerBasic extends RayTracerBase {
 
     @Override
     public Color traceRay(Ray ray) {
+        ray.setAABB(scene.isAABB);
         GeoPoint closestPoint = findClosestIntersection(ray);
         return closestPoint == null ? scene.background : calcColor(closestPoint, ray);
     }
@@ -153,7 +154,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @return The closest GeoPoint representing the closest intersection, or null if no intersection is found.
      */
     private GeoPoint findClosestIntersection(Ray ray) {
-        List<GeoPoint> points = scene.geometries.findGeoIntersections(ray);
+        List<GeoPoint> points=scene.geometries.findGeoIntersections(ray);
         return ray.findClosestGeoPoint(points);
     }
 

@@ -19,7 +19,12 @@ public class Tube extends RadialGeometry {
     final protected Ray axisRay;
 
     @Override
-    public boolean isIntersectBox(Ray ray) {
+    public void constructBox() {
+        return;
+    }
+
+    @Override
+    public boolean isIntersectBox(Ray ray, double maxDistance) {
         return true;
     }
 

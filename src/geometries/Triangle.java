@@ -23,6 +23,7 @@ public class Triangle extends Polygon {
      */
     public Triangle(Point p1, Point p2, Point p3) {
         super(p1, p2, p3);
+        constructBox();
     }
 
     /**
@@ -34,10 +35,7 @@ public class Triangle extends Polygon {
         return super.getNormal(point);
     }
 
-    @Override
-    public boolean isIntersectBox(Ray ray) {
-        return super.isIntersectBox(ray);
-    }
+
 
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {

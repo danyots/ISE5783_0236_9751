@@ -25,6 +25,7 @@ public class Sphere extends RadialGeometry {
     public Sphere(Point center, double r) {
         super(r);
         this.center = center;
+        constructBox();
     }
 
     /**
@@ -48,15 +49,22 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public boolean isIntersectBox(Ray ray) {
-        double minX = center.getX() - radius;
-        double minY = center.getY() - radius;
-        double minZ = center.getZ() - radius;
-        double maxX = center.getX() + radius;
-        double maxY = center.getY() + radius;
-        double maxZ = center.getZ() + radius;
+    public void constructBox() {
+        double X=center.getX();
+        double Y=center.getY();
+        double Z=center.getZ();
+        double minX =X  - radius;
+        double minY = Y - radius;
+        double minZ = Z - radius;
+        double maxX = X + radius;
+        double maxY = Y + radius;
+        double maxZ = Z + radius;
         box=new Box(minX,minY,minZ,maxX,maxY,maxZ);
-        return box.intersects(ray);
+    }
+
+    @Override
+    public boolean isIntersectBox(Ray ray, double maxDistance) {
+        return box.intersects(ray,maxDistance);
     }
 
     @Override

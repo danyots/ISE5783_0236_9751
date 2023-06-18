@@ -1,6 +1,7 @@
 package scene;
 
 import geometries.Geometries;
+import geometries.Intersectable;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Scene {
 
 
-    public static boolean isAABB=false;
+    public boolean isAABB=false;
     /**
      * The name of the scene.
      */
@@ -63,7 +64,7 @@ public class Scene {
         return this;
     }
     public  Scene setIsAABB(boolean isAABB) {
-        Scene.isAABB = isAABB;
+        this.isAABB = isAABB;
         return  this;
     }
 
@@ -89,6 +90,8 @@ public class Scene {
         this.geometries = geometries;
         return this;
     }
+
+
 
     /**
      * Sets the list of light sources in the scene.

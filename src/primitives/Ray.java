@@ -12,6 +12,7 @@ import static primitives.Util.isZero;
  * The Ray class represents a ray in 3D space. A ray is defined by a starting point and a direction.
  */
 public class Ray {
+    public boolean isAABB;
 
     private static final double DELTA = 0.1;
     final private Point p0;
@@ -112,6 +113,9 @@ public class Ray {
             }
         }
         return closest;
+    }
+    public void setAABB(boolean isAABB){
+        this.isAABB=isAABB;
     }
 
     /**

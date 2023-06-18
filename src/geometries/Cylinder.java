@@ -26,6 +26,7 @@ public class Cylinder extends Tube {
     public Cylinder(double h, Ray axisray, double r) {
         super(axisray, r);
         height = h;
+        constructBox();
     }
 
     /**
@@ -43,7 +44,7 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    public boolean isIntersectBox(Ray ray) {
+    public void constructBox() {
         Point endPoint1 = axisRay.getP0().add(axisRay.getDir().scale(height));
         Point startPoint = axisRay.getP0();
         // Determine the minimum and maximum coordinates
@@ -54,7 +55,11 @@ public class Cylinder extends Tube {
         double minZ = Math.min(startPoint.getZ(), endPoint1.getZ()) - radius;
         double maxZ = Math.max(startPoint.getZ(), endPoint1.getZ()) + radius;
         box = new Box(minX,minY,minZ,maxX,maxY,maxZ);
-        return box.intersects(ray);
+    }
+
+    @Override
+    public boolean isIntersectBox(Ray ray, double maxDistance) {
+        return box.intersects(ray,maxDistance);
     }
 
     @Override

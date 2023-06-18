@@ -18,6 +18,7 @@ public class allEffectsTest {
                 .setVPSize(150, 150).setVPDistance(1000).rotateLeft(90);
 
 
+        scene.setIsAABB(true);
         scene.geometries.add( //
                 new Triangle(new Point(0, 0, -115), new Point(0, 75, -75),
                         new Point(-75, 0, -75)).setEmission(new Color(20, 20, 20)).setMaterial(new Material().setKs(0.5).setShininess(60).setKr(0.2)),

@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 
 import java.util.List;
 
@@ -28,8 +29,11 @@ public abstract class Intersectable {
     }
 
     public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        if(ray.isAABB)
+            return (!isIntersectBox(ray,maxDistance)) ? null:findGeoIntersectionsHelper(ray, maxDistance);
         return findGeoIntersectionsHelper(ray, maxDistance);
     }
+    public abstract void constructBox();
 
 
     /**
@@ -41,7 +45,50 @@ public abstract class Intersectable {
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
-    public abstract boolean isIntersectBox(Ray ray);
+    public abstract boolean isIntersectBox(Ray ray, double maxDistance);
+    public static class Box {
+        private final double minX;
+        private final double minY;
+        private final double minZ;
+        private final double maxX;
+        private final double maxY;
+        private final double maxZ;
+
+        public Box(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+            this.minX = minX;
+            this.minY = minY;
+            this.minZ = minZ;
+            this.maxX = maxX;
+            this.maxY = maxY;
+            this.maxZ = maxZ;
+        }
+        public boolean intersects(Ray ray, double maxDistance) {
+            double dirX= ray.getDir().getX();
+            double dirY=ray.getDir().getY();
+            double dirZ=ray.getDir().getZ();
+            double p0X= ray.getP0().getX();
+            double p0Y=ray.getP0().getY();
+            double p0Z=ray.getP0().getZ();
+            double txmin= Util.alignZero(minX - p0X) /dirX;
+            double txmax= Util.alignZero(maxX - p0X) / dirX;
+            double tymin = Util.alignZero(minY - p0Y) / dirY;
+            double tymax = Util.alignZero(maxY - p0Y) / dirY;
+            double tzmin = Util.alignZero(minZ - p0Z) / dirZ;
+            double tzmax = Util.alignZero(maxZ - p0Z) / dirZ;
+            double tmin = Math.max(Math.max(Math.min(txmin, txmax), Math.min(tymin, tymax)), Math.min(tzmin, tzmax));
+            double tmax = Math.min(Math.min(Math.max(txmin, txmax), Math.max(tymin, tymax)), Math.max(tzmin, tzmax));
+
+                // if tmax < 0, ray (line) is intersecting AABB, but the whole AABB is behind us
+            if (tmax < 0||tmin>maxDistance)
+                {
+                    return false;
+                }
+                // if tmin > tmax, ray doesn't intersect AABB
+            return !(tmin > tmax);
+        }
+
+
+    }
 
     /**
      * Representation of a geometric intersection point.

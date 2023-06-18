@@ -33,6 +33,12 @@ public class Geometries extends Intersectable {
         add(geometries);
     }
 
+
+    @Override
+    public void constructBox() {
+        return ;
+    }
+
     /**
      * Adds Intersectable objects to the collection.
      *
@@ -46,9 +52,6 @@ public class Geometries extends Intersectable {
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> intersects = null;
         for (Intersectable i : geometries) {
-            if(Scene.isAABB){
-                if(!i.isIntersectBox(ray))continue;
-            }
             List<GeoPoint> geometryIntersects = i.findGeoIntersections(ray, maxDistance);
             if (geometryIntersects != null) {
                 if (intersects == null)
@@ -61,11 +64,11 @@ public class Geometries extends Intersectable {
     }
 
     @Override
-    public boolean isIntersectBox(Ray ray) {
-        boolean isIntersec = false;
+    public boolean isIntersectBox(Ray ray, double maxDistance) {
         for(Intersectable g:geometries){
-            isIntersec = isIntersec || g.isIntersectBox(ray);
+            if(g.isIntersectBox(ray, maxDistance))return true;
         }
-        return  isIntersec;
+        return  false ;
+
     }
 }
