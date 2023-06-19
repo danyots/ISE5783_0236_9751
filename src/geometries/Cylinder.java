@@ -26,7 +26,6 @@ public class Cylinder extends Tube {
     public Cylinder(double h, Ray axisray, double r) {
         super(axisray, r);
         height = h;
-        constructBox();
     }
 
     /**

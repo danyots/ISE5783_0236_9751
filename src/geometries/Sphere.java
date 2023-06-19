@@ -25,7 +25,6 @@ public class Sphere extends RadialGeometry {
     public Sphere(Point center, double r) {
         super(r);
         this.center = center;
-        constructBox();
     }
 
     /**

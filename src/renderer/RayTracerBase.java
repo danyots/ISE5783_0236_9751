@@ -21,6 +21,7 @@ public abstract class RayTracerBase {
      * @param scene The scene to be rendered.
      */
     public RayTracerBase(Scene scene) {
+        if(scene.isAABB)scene.geometries.setBoxes();
         this.scene = scene;
     }
 

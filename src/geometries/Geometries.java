@@ -69,6 +69,16 @@ public class Geometries extends Intersectable {
             if(g.isIntersectBox(ray, maxDistance))return true;
         }
         return  false ;
-
+    }
+    /**
+     * Sets up bounding boxes for the geometries.
+     * This method constructs bounding boxes for each geometry in the collection
+     * of geometries. The bounding boxes are used for various geometric calculations
+     * such as intersection tests and spatial optimizations.
+     */
+    public void setBoxes(){
+        for(Intersectable g:geometries){
+            g.constructBox();
+        }
     }
 }
